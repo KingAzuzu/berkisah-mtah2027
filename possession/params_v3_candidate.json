@@ -1,0 +1,30 @@
+{
+ "R": 1.0,
+ "BV": 0.5,
+ "KW": 20,
+ "W_HOLD": 0.3,
+ "W_DIFF": 0.6,
+ "ALPHA": 0.5,
+ "TEMP": 1.0,
+ "SWITCH_TEAM": 20.0,
+ "SWITCH_DEAD": 5.0,
+ "DECODER": "viterbi",
+ "variant": "players",
+ "selection": "best fixed cell by mean spellF1 over the 20 inner (match, match) folds, models not seeing either match",
+ "status": "CANDIDATE, not adopted. Equals v2 for the decoder. No v3 candidate cleared the bar (see results/v3_experiments.md); v2 stays the frozen submission.",
+ "snap": null,
+ "cleanup": null,
+ "restarts_optional": {
+  "adopted": false,
+  "PRE": 200,
+  "W_D": 1.0,
+  "POST": 75,
+  "W_T": 1.0,
+  "note": "gain +0.006 to +0.012 spellF1 only with 0.5 s tag timing, -0.0008..+0.006 at 1.5 s (fixed inner-best cell); use only if real Smart Tagging timing is about 0.5 s. Tags must come from smart_tagging.py with the throw-in team rule."
+ },
+ "cleanup_best_cell_not_adopted": {
+  "K": 0,
+  "L": 25,
+  "gain": 0.0003
+ }
+}
