@@ -1,0 +1,144 @@
+{
+ "name": "mbr_ablation",
+ "lomo_spell_mean": 0.32346507790449874,
+ "lomo_spell_min": 0.29324473975636767,
+ "lomo_spell_max": 0.34673123486682805,
+ "lomo_macro_mean": 0.7668269840897096,
+ "lomo_spells_pred_vs_gt": [
+  [
+   409,
+   511
+  ],
+  [
+   403,
+   500
+  ],
+  [
+   383,
+   402
+  ],
+  [
+   423,
+   456
+  ],
+  [
+   405,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "S": 50,
+    "SD": 20.0,
+    "MULT": "wide",
+    "TEMP": 3.0,
+    "KEEP": 0.5,
+    "METHOD": "argmax",
+    "ST": 5.0
+   },
+   "spell": 0.33043478260869563,
+   "macro": 0.7941817317053649,
+   "n_pred": 409,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "S": 50,
+    "SD": 20.0,
+    "MULT": "wide",
+    "TEMP": 3.0,
+    "KEEP": 0.5,
+    "METHOD": "argmax",
+    "ST": 5.0
+   },
+   "spell": 0.29324473975636767,
+   "macro": 0.7502391900819593,
+   "n_pred": 403,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "S": 50,
+    "SD": 20.0,
+    "MULT": "wide",
+    "TEMP": 3.0,
+    "KEEP": 0.5,
+    "METHOD": "argmax",
+    "ST": 5.0
+   },
+   "spell": 0.3301910828025478,
+   "macro": 0.7628869002258233,
+   "n_pred": 383,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "S": 50,
+    "SD": 20.0,
+    "MULT": "wide",
+    "TEMP": 3.0,
+    "KEEP": 0.5,
+    "METHOD": "argmax",
+    "ST": 5.0
+   },
+   "spell": 0.3167235494880546,
+   "macro": 0.7433928350538687,
+   "n_pred": 423,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "S": 50,
+    "SD": 20.0,
+    "MULT": "wide",
+    "TEMP": 3.0,
+    "KEEP": 0.5,
+    "METHOD": "argmax",
+    "ST": 5.0
+   },
+   "spell": 0.34673123486682805,
+   "macro": 0.783434263381532,
+   "n_pred": 405,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "S": 50,
+  "SD": 20.0,
+  "MULT": "wide",
+  "TEMP": 3.0,
+  "KEEP": 0.5,
+  "METHOD": "argmax",
+  "ST": 5.0
+ },
+ "grid": {
+  "S": [
+   50,
+   200
+  ],
+  "SD": [
+   20.0
+  ],
+  "MULT": [
+   "wide"
+  ],
+  "TEMP": [
+   3.0
+  ],
+  "KEEP": [
+   0.0,
+   0.2,
+   0.35,
+   0.5
+  ],
+  "METHOD": [
+   "viterbi",
+   "argmax",
+   "mbr"
+  ],
+  "ST": [
+   5.0
+  ]
+ }
+}

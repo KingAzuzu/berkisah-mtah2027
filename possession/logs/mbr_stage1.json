@@ -1,0 +1,145 @@
+{
+ "name": "mbr_stage1",
+ "lomo_spell_mean": 0.31211023837754504,
+ "lomo_spell_min": 0.27828418230563007,
+ "lomo_spell_max": 0.34036363636363637,
+ "lomo_macro_mean": 0.7624282955738148,
+ "lomo_spells_pred_vs_gt": [
+  [
+   417,
+   511
+  ],
+  [
+   408,
+   500
+  ],
+  [
+   395,
+   402
+  ],
+  [
+   290,
+   456
+  ],
+  [
+   404,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "TEMP": 1.0,
+    "S": 50,
+    "ST": 10.0,
+    "SD": 20.0,
+    "MULT": "one",
+    "METHOD": "argmax",
+    "KEEP": 0.0
+   },
+   "spell": 0.32155172413793104,
+   "macro": 0.7855137108403932,
+   "n_pred": 417,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "TEMP": 1.0,
+    "S": 50,
+    "ST": 10.0,
+    "SD": 20.0,
+    "MULT": "one",
+    "METHOD": "argmax",
+    "KEEP": 0.0
+   },
+   "spell": 0.28810572687224667,
+   "macro": 0.7389090370998751,
+   "n_pred": 408,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "TEMP": 1.0,
+    "S": 50,
+    "ST": 10.0,
+    "SD": 20.0,
+    "MULT": "one",
+    "METHOD": "argmax",
+    "KEEP": 0.0
+   },
+   "spell": 0.3322459222082811,
+   "macro": 0.7692125066811745,
+   "n_pred": 395,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "TEMP": 2.0,
+    "S": 50,
+    "ST": 10.0,
+    "SD": 20.0,
+    "MULT": "one",
+    "METHOD": "argmax",
+    "KEEP": 0.0
+   },
+   "spell": 0.27828418230563007,
+   "macro": 0.7448174363889505,
+   "n_pred": 290,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "TEMP": 1.0,
+    "S": 50,
+    "ST": 10.0,
+    "SD": 20.0,
+    "MULT": "one",
+    "METHOD": "argmax",
+    "KEEP": 0.0
+   },
+   "spell": 0.34036363636363637,
+   "macro": 0.7736887868586803,
+   "n_pred": 404,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "TEMP": 1.0,
+  "S": 50,
+  "ST": 10.0,
+  "SD": 20.0,
+  "MULT": "one",
+  "METHOD": "argmax",
+  "KEEP": 0.0
+ },
+ "grid": {
+  "TEMP": [
+   0.5,
+   1.0,
+   2.0,
+   3.0
+  ],
+  "S": [
+   50
+  ],
+  "ST": [
+   10.0
+  ],
+  "SD": [
+   20.0
+  ],
+  "MULT": [
+   "one",
+   "wide",
+   "low"
+  ],
+  "METHOD": [
+   "viterbi",
+   "argmax",
+   "mbr"
+  ],
+  "KEEP": [
+   0.0
+  ]
+ }
+}

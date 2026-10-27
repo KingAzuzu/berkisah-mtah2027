@@ -1,0 +1,111 @@
+{
+ "name": "mbr_reference",
+ "lomo_spell_mean": 0.3016503350376117,
+ "lomo_spell_min": 0.2803695150115474,
+ "lomo_spell_max": 0.32590673575129536,
+ "lomo_macro_mean": 0.7573497778991618,
+ "lomo_spells_pred_vs_gt": [
+  [
+   359,
+   511
+  ],
+  [
+   366,
+   500
+  ],
+  [
+   351,
+   402
+  ],
+  [
+   357,
+   456
+  ],
+  [
+   351,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5
+   },
+   "spell": 0.3002298850574713,
+   "macro": 0.7784419015245327,
+   "n_pred": 359,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5
+   },
+   "spell": 0.2803695150115474,
+   "macro": 0.7401663331324523,
+   "n_pred": 366,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5
+   },
+   "spell": 0.32031872509960163,
+   "macro": 0.762768841454907,
+   "n_pred": 351,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5
+   },
+   "spell": 0.2814268142681427,
+   "macro": 0.7325960826959919,
+   "n_pred": 357,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5
+   },
+   "spell": 0.32590673575129536,
+   "macro": 0.7727757306879252,
+   "n_pred": 351,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "SWITCH_TEAM": 10.0,
+  "SWITCH_DEAD": 20.0,
+  "SCALE": 1.0,
+  "V0": 1.5
+ },
+ "grid": {
+  "SWITCH_TEAM": [
+   10.0
+  ],
+  "SWITCH_DEAD": [
+   20.0
+  ],
+  "SCALE": [
+   1.0
+  ],
+  "V0": [
+   1.5
+  ]
+ }
+}

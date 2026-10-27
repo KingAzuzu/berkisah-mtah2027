@@ -1,0 +1,169 @@
+{
+ "name": "rules_s3",
+ "lomo_spell_mean": 0.39837138008329576,
+ "lomo_spell_min": 0.37638724911452187,
+ "lomo_spell_max": 0.4365562913907284,
+ "lomo_macro_mean": 0.7790472501173245,
+ "lomo_spells_pred_vs_gt": [
+  [
+   320,
+   511
+  ],
+  [
+   347,
+   500
+  ],
+  [
+   317,
+   402
+  ],
+  [
+   344,
+   456
+  ],
+  [
+   334,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "VSLOW": 3.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.41732851985559566,
+   "macro": 0.8108638212325457,
+   "n_pred": 320,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "VSLOW": 3.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.37638724911452187,
+   "macro": 0.7490020895607818,
+   "n_pred": 347,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 10,
+    "VSLOW": 1.5,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.38108484005563276,
+   "macro": 0.7834720326481089,
+   "n_pred": 317,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "VSLOW": 3.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.3805,
+   "macro": 0.7587913540729548,
+   "n_pred": 344,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 10,
+    "VSLOW": 3.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.4365562913907284,
+   "macro": 0.7931069530722308,
+   "n_pred": 334,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "SWITCH_DEAD": 20.0,
+  "SCALE": 1.0,
+  "V0": 1.5,
+  "R": 1.0,
+  "BV": 0.5,
+  "KW": 20,
+  "VSLOW": 3.0,
+  "W_HOLD": 0.3,
+  "W_DIFF": 0.6,
+  "SWITCH_TEAM": 10.0
+ },
+ "grid": {
+  "SWITCH_DEAD": [
+   20.0
+  ],
+  "SCALE": [
+   1.0
+  ],
+  "V0": [
+   1.5
+  ],
+  "R": [
+   0.75,
+   1.0
+  ],
+  "BV": [
+   0.5,
+   1.0
+  ],
+  "KW": [
+   10,
+   20
+  ],
+  "VSLOW": [
+   1.5,
+   3.0
+  ],
+  "W_HOLD": [
+   0.3
+  ],
+  "W_DIFF": [
+   0.6
+  ],
+  "SWITCH_TEAM": [
+   10.0
+  ]
+ }
+}

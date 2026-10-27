@@ -1,0 +1,197 @@
+{
+ "name": "rules_s4",
+ "lomo_spell_mean": 0.3961720706765758,
+ "lomo_spell_min": 0.3635430038510911,
+ "lomo_spell_max": 0.4397350993377483,
+ "lomo_macro_mean": 0.7791472130212524,
+ "lomo_spells_pred_vs_gt": [
+  [
+   320,
+   511
+  ],
+  [
+   347,
+   500
+  ],
+  [
+   317,
+   402
+  ],
+  [
+   323,
+   456
+  ],
+  [
+   334,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "ALLOW_UNK": 1,
+    "W_VAL": 3.0,
+    "GAP": 25,
+    "DUEL_R": 1.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.41732851985559566,
+   "macro": 0.8107048904162912,
+   "n_pred": 320,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "ALLOW_UNK": 1,
+    "W_VAL": 3.0,
+    "GAP": 25,
+    "DUEL_R": 1.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.37638724911452187,
+   "macro": 0.7490020895607818,
+   "n_pred": 347,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "ALLOW_UNK": 1,
+    "W_VAL": 3.0,
+    "GAP": 25,
+    "DUEL_R": 1.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.38386648122392214,
+   "macro": 0.7839235854564256,
+   "n_pred": 317,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "ALLOW_UNK": 1,
+    "W_VAL": 1.5,
+    "GAP": 75,
+    "DUEL_R": 1.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.3635430038510911,
+   "macro": 0.7583429976995802,
+   "n_pred": 323,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.0,
+    "BV": 0.5,
+    "KW": 20,
+    "ALLOW_UNK": 1,
+    "W_VAL": 3.0,
+    "GAP": 25,
+    "DUEL_R": 1.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.6,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.4397350993377483,
+   "macro": 0.7937625019731837,
+   "n_pred": 334,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "SWITCH_DEAD": 20.0,
+  "SCALE": 1.0,
+  "V0": 1.5,
+  "R": 1.0,
+  "BV": 0.5,
+  "KW": 20,
+  "ALLOW_UNK": 1,
+  "W_VAL": 3.0,
+  "GAP": 25,
+  "DUEL_R": 1.0,
+  "W_HOLD": 0.3,
+  "W_DIFF": 0.6,
+  "SWITCH_TEAM": 10.0
+ },
+ "grid": {
+  "SWITCH_DEAD": [
+   20.0
+  ],
+  "SCALE": [
+   1.0
+  ],
+  "V0": [
+   1.5
+  ],
+  "R": [
+   1.0
+  ],
+  "BV": [
+   0.5
+  ],
+  "KW": [
+   20
+  ],
+  "ALLOW_UNK": [
+   0,
+   1
+  ],
+  "W_VAL": [
+   1.5,
+   3.0,
+   6.0
+  ],
+  "GAP": [
+   0,
+   25,
+   75
+  ],
+  "DUEL_R": [
+   1.0
+  ],
+  "W_HOLD": [
+   0.3
+  ],
+  "W_DIFF": [
+   0.6
+  ],
+  "SWITCH_TEAM": [
+   10.0
+  ]
+ }
+}

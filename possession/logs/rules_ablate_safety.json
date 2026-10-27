@@ -1,0 +1,122 @@
+{
+ "name": "rules_ablate_safety",
+ "lomo_spell_mean": 0.31223935315886464,
+ "lomo_spell_min": 0.2797900262467192,
+ "lomo_spell_max": 0.3651651651651652,
+ "lomo_macro_mean": 0.7697184147741154,
+ "lomo_spells_pred_vs_gt": [
+  [
+   243,
+   511
+  ],
+  [
+   262,
+   500
+  ],
+  [
+   255,
+   402
+  ],
+  [
+   247,
+   456
+  ],
+  [
+   245,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R_CLOSE": 1.5
+   },
+   "spell": 0.3002652519893899,
+   "macro": 0.7913223929673894,
+   "n_pred": 243,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R_CLOSE": 1.5
+   },
+   "spell": 0.2797900262467192,
+   "macro": 0.7419460847686355,
+   "n_pred": 262,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R_CLOSE": 1.5
+   },
+   "spell": 0.3354642313546423,
+   "macro": 0.7769267175753543,
+   "n_pred": 255,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R_CLOSE": 1.5
+   },
+   "spell": 0.2805120910384068,
+   "macro": 0.7509803888547687,
+   "n_pred": 247,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R_CLOSE": 1.5
+   },
+   "spell": 0.3651651651651652,
+   "macro": 0.7874164897044293,
+   "n_pred": 245,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "SWITCH_TEAM": 10.0,
+  "SWITCH_DEAD": 20.0,
+  "SCALE": 1.0,
+  "V0": 1.5,
+  "R_CLOSE": 1.5
+ },
+ "grid": {
+  "SWITCH_TEAM": [
+   10.0
+  ],
+  "SWITCH_DEAD": [
+   20.0
+  ],
+  "SCALE": [
+   1.0
+  ],
+  "V0": [
+   1.5
+  ],
+  "R_CLOSE": [
+   1.0,
+   1.5,
+   3.0
+  ]
+ }
+}

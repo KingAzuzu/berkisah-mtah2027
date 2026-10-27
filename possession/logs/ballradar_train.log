@@ -1,0 +1,17 @@
+torch 2.11.0+cu128 cuda True NVIDIA GeForce RTX 4060 Laptop GPU
+fold: hold out J03WMX
+  step 250/8000 ce 1.0525 ball_huber 16.160 27s
+  step 500/8000 ce 0.9609 ball_huber 8.022 54s
+  step 750/8000 ce 0.7426 ball_huber 5.070 81s
+  step 1000/8000 ce 0.5655 ball_huber 3.887 107s
+  step 1250/8000 ce 0.5216 ball_huber 3.219 134s
+  step 1500/8000 ce 0.5042 ball_huber 2.875 161s
+  step 1750/8000 ce 0.4941 ball_huber 2.605 188s
+  step 2000/8000 ce 0.4874 ball_huber 2.410 215s
+  step 2250/8000 ce 0.4793 ball_huber 2.277 242s
+  step 2500/8000 ce 0.4755 ball_huber 2.151 269s
+  step 2750/8000 ce 0.4695 ball_huber 2.094 296s
+  step 3000/8000 ce 0.4617 ball_huber 1.951 323s
+  step 3250/8000 ce 0.4553 ball_huber 1.914 350s
+  step 3500/8000 ce 0.4551 ball_huber 1.853 377s
+  step 3750/8000 ce 0.4448 ball_huber 1.786 403s

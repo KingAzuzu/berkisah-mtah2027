@@ -1,0 +1,17 @@
+J03WMX ball seen 0.594  objects 20.5  truth D 0.415
+J03WN1 ball seen 0.592  objects 19.6  truth D 0.517
+J03WOH ball seen 0.593  objects 20.5  truth D 0.476
+J03WOY ball seen 0.593  objects 20.5  truth D 0.465
+J03WPY ball seen 0.592  objects 20.5  truth D 0.443
+  baseline50  J03WMX  spellF1 0.1884  macroF1 0.4151  spells 680/511
+  baseline50  J03WN1  spellF1 0.1962  macroF1 0.3541  spells 703/500
+  baseline50  J03WOH  spellF1 0.2066  macroF1 0.3741  spells 661/402
+  baseline50  J03WOY  spellF1 0.1936  macroF1 0.3763  spells 664/456
+  baseline50  J03WPY  spellF1 0.2152  macroF1 0.3990  spells 709/421
+baseline50  spellF1 mean 0.2000 [0.1884, 0.2152]  macroF1 mean 0.3837  (n=5)
+  safety      J03WMX  spellF1 0.2528  macroF1 0.7043  spells 269/511
+  safety      J03WN1  spellF1 0.2188  macroF1 0.6545  spells 235/500
+  safety      J03WOH  spellF1 0.3015  macroF1 0.7199  spells 260/402
+  safety      J03WOY  spellF1 0.2335  macroF1 0.6916  spells 267/456
+  safety      J03WPY  spellF1 0.2682  macroF1 0.7101  spells 271/421
+safety      spellF1 mean 0.2550 [0.2188, 0.3015]  macroF1 mean 0.6961  (n=5)

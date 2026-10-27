@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Possession Viewer</title>
+<style>
+/* Layout: one column; pitch replay on top, label timeline under it, durations last. */
+:root {
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --home: #2a78d6; --away: #eb6834; --dead: #dcdbd4; --pred: #6250d6;
+  --pitch-line: #c3c2b7; --ball: #0b0b0b;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --home: #3987e5; --away: #d95926; --dead: #383835; --pred: #9085e9;
+    --pitch-line: #4a4a46; --ball: #f0efec; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+  --home: #3987e5; --away: #d95926; --dead: #383835; --pred: #9085e9;
+  --pitch-line: #4a4a46; --ball: #f0efec; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--sans); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 20px; }
+h1 { font-size: 20px; margin: 0; text-wrap: balance; }
+h2 { font-size: 13px; margin: 0; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); font-weight: 600; }
+.sub { color: var(--ink-2); margin: 2px 0 0; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--ring); border-radius: 8px; padding: 10px 12px; }
+.stat .k { color: var(--ink-2); font-size: 12px; }
+.stat .v { font-size: 20px; font-weight: 600; }
+.stat .v small { font-size: 12px; color: var(--ink-2); font-weight: 400; }
+.panel { background: var(--surface); border: 1px solid var(--ring); border-radius: 8px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+canvas { display: block; width: 100%; }
+#pitch { aspect-ratio: 105 / 68; max-width: 100%; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button, select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--axis); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--pred); outline-offset: 2px; }
+input[type=range] { flex: 1 1 240px; min-width: 0; accent-color: var(--pred); }
+.time { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--ring); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+.sw { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink-2); font-size: 12px; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+#tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring);
+  border-radius: 6px; padding: 4px 8px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.hist svg { width: 100%; max-width: 720px; height: auto; }
+.hist text { fill: var(--ink-2); font: 11px var(--sans); }
+.hist .val { fill: var(--ink); }
+.hist table { border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.hist td, .hist th { padding: 2px 10px 2px 0; text-align: right; }
+.hist th:first-child, .hist td:first-child { text-align: left; }
+.hint { color: var(--muted); font-size: 12px; margin: 0; }
+footer { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title"></h1>
+    <p class="sub" id="source"></p>
+  </header>
+  <section class="stats" id="stats" aria-label="Summary"></section>
+
+  <section class="panel" aria-label="Pitch replay">
+    <h2>Pitch replay</h2>
+    <canvas id="pitch" tabindex="0" aria-label="Pitch with player and ball positions at the current time"></canvas>
+    <div class="controls">
+      <button id="play" type="button">Play</button>
+      <select id="speed" aria-label="Playback speed">
+        <option value="1">1×</option><option value="4" selected>4×</option><option value="16">16×</option>
+      </select>
+      <input id="seek" type="range" min="0" value="0" step="1" aria-label="Time in the half">
+      <span class="time" id="clock"></span>
+    </div>
+    <div class="chips" id="now"></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--home)"></i>Home player</span>
+      <span><i class="sw" style="background:var(--away)"></i>Away player</span>
+      <span><i class="sw" style="background:var(--ball);border-radius:50%"></i>Ball (seen)</span>
+      <span><i class="sw" style="background:var(--muted);border-radius:50%"></i>Ball over the last 2 s</span>
+    </div>
+  </section>
+
+  <section class="panel" aria-label="Label timeline">
+    <h2>Labels over time</h2>
+    <canvas id="zoom" height="120" aria-label="Labels for two minutes around the current time"></canvas>
+    <canvas id="overview" height="70" aria-label="Labels for the whole half"></canvas>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--home)"></i>H home possession</span>
+      <span><i class="sw" style="background:var(--away)"></i>A away possession</span>
+      <span><i class="sw" style="background:var(--dead)"></i>D dead ball</span>
+      <span><i class="sw" style="background:var(--ink-2)"></i>Ball seen</span>
+    </div>
+    <p class="hint">Top: two minutes around the cursor. Bottom: the whole half. Click either to jump there; space plays and pauses, arrow keys step one second.</p>
+  </section>
+
+  <section class="panel hist" aria-label="Possession durations">
+    <h2>Possession durations</h2>
+    <div id="hist"></div>
+    <div id="histTable"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const CODE = ["H", "A", "D"];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const colorOf = c => css(c === 0 ? "--home" : c === 1 ? "--away" : "--dead");
+
+function decode(b64) {
+  const bin = atob(b64), u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return new Int16Array(u8.buffer);
+}
+const XY = decode(DATA.xy), BALL = decode(DATA.ball);
+const S = DATA.nSlots, T = DATA.T, FPS = DATA.fps, STEP = DATA.fps / DATA.pitchFps;
+const NAN16 = -32768;
+const [PL, PW] = DATA.pitch;
+const trackNames = Object.keys(DATA.tracks);
+
+function at(runs, f) {  // binary search the run containing frame f
+  let lo = 0, hi = runs.length - 1;
+  while (lo < hi) { const m = (lo + hi + 1) >> 1; if (runs[m][0] <= f) lo = m; else hi = m - 1; }
+  return runs[lo][2];
+}
+const fmt = f => { const s = f / FPS, m = Math.floor(s / 60); return `${String(m).padStart(2, "0")}:${(s - m * 60).toFixed(1).padStart(4, "0")}`; };
+const spells = runs => runs.filter(r => r[2] === 0 || r[2] === 1).map(r => (r[1] - r[0]) / FPS);
+
+// ---- header and stats ----
+document.getElementById("title").textContent = DATA.title;
+document.getElementById("source").textContent = `Source: ${DATA.source}. ${(T / FPS / 60).toFixed(1)} min, ${T.toLocaleString()} frames at ${FPS} fps.`;
+document.title = DATA.title;
+const seenFrames = DATA.ballSeen.filter(r => r[2]).reduce((a, r) => a + r[1] - r[0], 0);
+const stats = [["Ball seen", `${(100 * seenFrames / T).toFixed(1)}%`, "of frames"]];
+for (const name of trackNames) {
+  const runs = DATA.tracks[name], sp = spells(runs);
+  const dead = runs.filter(r => r[2] === 2).reduce((a, r) => a + r[1] - r[0], 0);
+  const mean = sp.length ? sp.reduce((a, b) => a + b, 0) / sp.length : 0;
+  stats.push([`Possessions, ${name}`, sp.length.toLocaleString(), `mean ${mean.toFixed(1)} s`]);
+  stats.push([`Dead ball, ${name}`, `${(100 * dead / T).toFixed(1)}%`, "of frames"]);
+}
+document.getElementById("stats").innerHTML = stats.map(([k, v, s]) =>
+  `<div class="stat"><div class="k">${k}</div><div class="v">${v} <small>${s}</small></div></div>`).join("");
+document.getElementById("foot").textContent =
+  "Built by possession/viz.py. Positions are drawn at 5 fps; labels are per frame at 25 fps.";
+
+// ---- canvases ----
+function fit(cv, cssH) {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cssH ?? cv.clientHeight;
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, w, h];
+}
+
+let frame = 0, playing = false;
+const pitch = document.getElementById("pitch"), zoom = document.getElementById("zoom"), over = document.getElementById("overview");
+
+function drawPitch() {
+  const [g, w, h] = fit(pitch);
+  const pad = 10, sx = (w - 2 * pad) / PL, sy = (h - 2 * pad) / PW;
+  const X = x => pad + (x + PL / 2) * sx, Y = y => pad + (PW / 2 - y) * sy;
+  g.fillStyle = css("--surface"); g.fillRect(0, 0, w, h);
+  g.strokeStyle = css("--pitch-line"); g.lineWidth = 1.5;
+  const rect = (x0, y0, x1, y1) => g.strokeRect(X(x0), Y(y1), (x1 - x0) * sx, (y1 - y0) * sy);
+  rect(-PL / 2, -PW / 2, PL / 2, PW / 2);
+  g.beginPath(); g.moveTo(X(0), Y(-PW / 2)); g.lineTo(X(0), Y(PW / 2)); g.stroke();
+  g.beginPath(); g.ellipse(X(0), Y(0), 9.15 * sx, 9.15 * sy, 0, 0, 2 * Math.PI); g.stroke();
+  for (const s of [-1, 1]) {
+    const e = s * PL / 2;
+    rect(Math.min(e, e - s * 16.5), -20.16, Math.max(e, e - s * 16.5), 20.16);
+    rect(Math.min(e, e - s * 5.5), -9.16, Math.max(e, e - s * 5.5), 9.16);
+  }
+  const k = Math.min(Math.floor(frame / STEP), BALL.length / 2 - 1), r = Math.max(3, 0.9 * sx);
+  // ball trail: last 2 s of seen positions
+  g.fillStyle = css("--muted");
+  for (let j = Math.max(0, k - 2 * DATA.pitchFps); j < k; j++) {
+    const bx = BALL[2 * j], by = BALL[2 * j + 1];
+    if (bx !== NAN16) { g.globalAlpha = 0.25 + 0.5 * (j - k + 10) / 10; g.beginPath(); g.arc(X(bx / 10), Y(by / 10), 2, 0, 2 * Math.PI); g.fill(); }
+  }
+  g.globalAlpha = 1;
+  for (let s = 0; s < S; s++) {
+    const i = (k * S + s) * 2, x = XY[i], y = XY[i + 1];
+    if (x === NAN16) continue;
+    g.beginPath(); g.arc(X(x / 10), Y(y / 10), r, 0, 2 * Math.PI);
+    g.fillStyle = css(DATA.team[s] === 0 ? "--home" : "--away"); g.fill();
+    g.lineWidth = 2; g.strokeStyle = css("--surface"); g.stroke();
+  }
+  const bx = BALL[2 * k], by = BALL[2 * k + 1];
+  if (bx !== NAN16) {
+    g.beginPath(); g.arc(X(bx / 10), Y(by / 10), Math.max(2.5, 0.55 * sx), 0, 2 * Math.PI);
+    g.fillStyle = css("--ball"); g.fill(); g.lineWidth = 2; g.strokeStyle = css("--surface"); g.stroke();
+  }
+}
+
+const ROWS = () => [...trackNames.map(n => ({ name: n, runs: DATA.tracks[n], kind: "label" })),
+                    { name: "ball seen", runs: DATA.ballSeen, kind: "seen" }];
+const LABEL_W = 92;
+
+function drawStrip(cv, f0, f1, cssH, cursor) {
+  const [g, w, h] = fit(cv, cssH);
+  g.fillStyle = css("--surface"); g.fillRect(0, 0, w, h);
+  const rows = ROWS(), rh = Math.min(26, (h - 18) / rows.length), x0 = LABEL_W, pw = w - x0;
+  const X = f => x0 + (f - f0) / (f1 - f0) * pw;
+  rows.forEach((row, i) => {
+    const y = 4 + i * rh;
+    g.fillStyle = css("--ink-2"); g.font = "12px " + css("--sans"); g.textBaseline = "middle";
+    g.fillText(row.name, 0, y + rh / 2 - 1);
+    for (const [a, b, c] of row.runs) {
+      if (b <= f0 || a >= f1) continue;
+      if (row.kind === "seen" && !c) continue;
+      const xa = X(Math.max(a, f0)), xb = X(Math.min(b, f1));
+      g.fillStyle = row.kind === "seen" ? css("--ink-2") : colorOf(c);
+      g.fillRect(xa, y + 2, Math.max(xb - xa, 0.6), rh - 6);
+    }
+  });
+  // time axis
+  g.fillStyle = css("--muted"); g.textBaseline = "top";
+  const span = (f1 - f0) / FPS, tick = span > 1200 ? 300 : span > 300 ? 60 : 15;
+  for (let s = Math.ceil(f0 / FPS / tick) * tick; s * FPS <= f1; s += tick) {
+    const x = X(s * FPS); g.fillRect(x, h - 16, 1, 4);
+    const lbl = fmt(s * FPS).replace(/\.\d$/, ""); g.fillText(lbl, Math.min(x + 2, w - 34), h - 13);
+  }
+  if (cursor) { g.fillStyle = css("--ink"); g.fillRect(X(frame) - 1, 0, 2, h - 16); }
+  return { f0, f1, x0, pw };
+}
+
+let zoomGeo, overGeo;
+function zoomWindow() { const half = 60 * FPS; let a = frame - half, b = frame + half;
+  if (a < 0) { b -= a; a = 0; } if (b > T) { a -= b - T; b = T; } return [Math.max(0, a), b]; }
+function drawStrips() {
+  const [a, b] = zoomWindow();
+  zoomGeo = drawStrip(zoom, a, b, 120, true);
+  overGeo = drawStrip(over, 0, T, 70, true);
+}
+
+function drawNow() {
+  const chips = [];
+  for (const n of trackNames) { const c = at(DATA.tracks[n], frame);
+    chips.push(`<span class="chip"><i class="sw" style="background:${colorOf(c)}"></i>${n}: ${CODE[c]}</span>`); }
+  chips.push(`<span class="chip">ball ${at(DATA.ballSeen, frame) ? "seen" : "not seen"}</span>`);
+  document.getElementById("now").innerHTML = chips.join("");
+  document.getElementById("clock").textContent = `${fmt(frame)} · frame ${frame.toLocaleString()}`;
+}
+
+function render() { drawPitch(); drawStrips(); drawNow(); seek.value = frame; }
+
+// ---- histogram (SVG, grouped bars) ----
+function drawHist() {
+  const edges = [0, 1, 2, 5, 10, 20, 40, Infinity], names = ["<1 s", "1–2", "2–5", "5–10", "10–20", "20–40", "40+ s"];
+  const series = trackNames.map((n, i) => {
+    const sp = spells(DATA.tracks[n]);
+    return { name: n, color: n === "truth" ? "--ink-2" : "--pred",
+             counts: names.map((_, b) => sp.filter(d => d >= edges[b] && d < edges[b + 1]).length) };
+  });
+  const W = 640, H = 220, L = 36, B = 28, top = 18, max = Math.max(1, ...series.flatMap(s => s.counts));
+  const nice = Math.ceil(max / 50) * 50, gw = (W - L - 8) / names.length, bw = Math.min(26, (gw - 10) / series.length);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Possession duration histogram">`;
+  for (let t = 0; t <= nice; t += nice / 5) {
+    const y = H - B - (t / nice) * (H - B - top);
+    svg += `<line x1="${L}" x2="${W - 4}" y1="${y}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    svg += `<text x="${L - 6}" y="${y + 4}" text-anchor="end">${t}</text>`;
+  }
+  names.forEach((nm, b) => {
+    const gx = L + b * gw + (gw - bw * series.length - 2 * (series.length - 1)) / 2;
+    series.forEach((s, i) => {
+      const v = s.counts[b], hgt = (v / nice) * (H - B - top), x = gx + i * (bw + 2), y = H - B - hgt;
+      svg += `<path d="M${x},${H - B} V${y + Math.min(4, hgt)} q0,-${Math.min(4, hgt)} ${Math.min(4, bw / 2)},-${Math.min(4, hgt)} H${x + bw - Math.min(4, bw / 2)} q${Math.min(4, bw / 2)},0 ${Math.min(4, bw / 2)},${Math.min(4, hgt)} V${H - B} Z" fill="var(${s.color})"><title>${s.name}, ${nm}: ${v} possessions</title></path>`;
+    });
+    svg += `<text x="${L + b * gw + gw / 2}" y="${H - 8}" text-anchor="middle">${nm}</text>`;
+  });
+  svg += `<line x1="${L}" x2="${W - 4}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)"/></svg>`;
+  const legend = `<div class="legend">${series.map(s => `<span><i class="sw" style="background:var(${s.color})"></i>${s.name}</span>`).join("")}</div>`;
+  document.getElementById("hist").innerHTML = legend + svg;
+  document.getElementById("histTable").innerHTML = `<table><thead><tr><th>possessions</th>${names.map(n => `<th>${n}</th>`).join("")}</tr></thead><tbody>${
+    series.map(s => `<tr><td>${s.name}</td>${s.counts.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+// ---- interaction ----
+const seek = document.getElementById("seek"); seek.max = T - 1;
+seek.addEventListener("input", () => { frame = +seek.value; render(); });
+const playBtn = document.getElementById("play");
+function toggle() { playing = !playing; playBtn.textContent = playing ? "Pause" : "Play"; if (playing) loop(performance.now()); }
+playBtn.addEventListener("click", toggle);
+let last = 0;
+function loop(t0) {
+  last = t0;
+  const step = t => { if (!playing) return;
+    frame = Math.min(T - 1, frame + Math.round((t - last) / 1000 * FPS * +document.getElementById("speed").value));
+    last = t; render(); if (frame >= T - 1) { toggle(); return; } requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
+  if (e.code === "Space") { e.preventDefault(); toggle(); }
+  if (e.code === "ArrowRight") { frame = Math.min(T - 1, frame + FPS); render(); }
+  if (e.code === "ArrowLeft") { frame = Math.max(0, frame - FPS); render(); }
+});
+const tip = document.getElementById("tip");
+function stripHit(cv, geo, e) {
+  const r = cv.getBoundingClientRect(), x = e.clientX - r.left;
+  if (x < geo.x0) return null;
+  return Math.round(geo.f0 + (x - geo.x0) / geo.pw * (geo.f1 - geo.f0));
+}
+for (const [cv, geoOf] of [[zoom, () => zoomGeo], [over, () => overGeo]]) {
+  cv.addEventListener("click", e => { const f = stripHit(cv, geoOf(), e); if (f != null) { frame = Math.max(0, Math.min(T - 1, f)); render(); } });
+  cv.addEventListener("mousemove", e => {
+    const f = stripHit(cv, geoOf(), e); if (f == null || f < 0 || f >= T) { tip.hidden = true; return; }
+    tip.innerHTML = `${fmt(f)}<br>${trackNames.map(n => `${n}: ${CODE[at(DATA.tracks[n], f)]}`).join("<br>")}<br>ball ${at(DATA.ballSeen, f) ? "seen" : "not seen"}`;
+    tip.style.left = Math.min(e.clientX + 12, innerWidth - 150) + "px"; tip.style.top = (e.clientY + 12) + "px"; tip.hidden = false;
+  });
+  cv.addEventListener("mouseleave", () => { tip.hidden = true; });
+}
+addEventListener("resize", render);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { render(); });
+drawHist(); render();
+</script>
+</body>
+</html>

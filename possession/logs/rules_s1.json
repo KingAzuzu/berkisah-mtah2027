@@ -1,0 +1,151 @@
+{
+ "name": "rules_s1",
+ "lomo_spell_mean": 0.3725054680905348,
+ "lomo_spell_min": 0.34278668310727495,
+ "lomo_spell_max": 0.4117804551539491,
+ "lomo_macro_mean": 0.7689884695964289,
+ "lomo_spells_pred_vs_gt": [
+  [
+   341,
+   511
+  ],
+  [
+   354,
+   500
+  ],
+  [
+   319,
+   402
+  ],
+  [
+   355,
+   456
+  ],
+  [
+   326,
+   421
+  ]
+ ],
+ "held_out": {
+  "J03WMX": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.5,
+    "BV": 2.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.3,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.3863849765258216,
+   "macro": 0.79211751359475,
+   "n_pred": 341,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.5,
+    "BV": 2.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.3,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.3559718969555035,
+   "macro": 0.7430946763859944,
+   "n_pred": 354,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.5,
+    "BV": 2.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.3,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.36560332871012485,
+   "macro": 0.7729878093895167,
+   "n_pred": 319,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.5,
+    "BV": 2.0,
+    "W_HOLD": 1.0,
+    "W_DIFF": 0.3,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.34278668310727495,
+   "macro": 0.7481614610232032,
+   "n_pred": 355,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "params": {
+    "SWITCH_DEAD": 20.0,
+    "SCALE": 1.0,
+    "V0": 1.5,
+    "R": 1.5,
+    "BV": 2.0,
+    "W_HOLD": 0.3,
+    "W_DIFF": 0.3,
+    "SWITCH_TEAM": 10.0
+   },
+   "spell": 0.4117804551539491,
+   "macro": 0.7885808875886795,
+   "n_pred": 326,
+   "n_gt": 421
+  }
+ },
+ "best_on_all": {
+  "SWITCH_DEAD": 20.0,
+  "SCALE": 1.0,
+  "V0": 1.5,
+  "R": 1.5,
+  "BV": 2.0,
+  "W_HOLD": 0.3,
+  "W_DIFF": 0.3,
+  "SWITCH_TEAM": 10.0
+ },
+ "grid": {
+  "SWITCH_DEAD": [
+   20.0
+  ],
+  "SCALE": [
+   1.0
+  ],
+  "V0": [
+   1.5
+  ],
+  "R": [
+   1.5,
+   3.0
+  ],
+  "BV": [
+   2.0,
+   4.0
+  ],
+  "W_HOLD": [
+   0.3,
+   1.0
+  ],
+  "W_DIFF": [
+   0.0,
+   0.3
+  ],
+  "SWITCH_TEAM": [
+   10.0
+  ]
+ }
+}
