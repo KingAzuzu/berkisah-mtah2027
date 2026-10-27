@@ -1,0 +1,9 @@
+test_load_with_path_outside_claude (__main__.T.test_load_with_path_outside_claude) ... ok
+test_parse (__main__.T.test_parse) ... ok
+test_refuses_under_claude (__main__.T.test_refuses_under_claude) ... ok
+test_to_tags (__main__.T.test_to_tags) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.023s
+
+OK

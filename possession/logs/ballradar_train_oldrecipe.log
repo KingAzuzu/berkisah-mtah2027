@@ -1,0 +1,36 @@
+torch 2.11.0+cu128 cuda True NVIDIA GeForce RTX 4060 Laptop GPU
+fold: hold out J03WMX
+  step 250/8000 ce 1.0525 ball_huber 16.160 27s
+  step 500/8000 ce 0.9609 ball_huber 8.022 54s
+  step 750/8000 ce 0.7426 ball_huber 5.070 81s
+  step 1000/8000 ce 0.5655 ball_huber 3.887 107s
+  step 1250/8000 ce 0.5216 ball_huber 3.219 134s
+  step 1500/8000 ce 0.5042 ball_huber 2.875 161s
+  step 1750/8000 ce 0.4941 ball_huber 2.605 188s
+  step 2000/8000 ce 0.4874 ball_huber 2.410 215s
+  step 2250/8000 ce 0.4793 ball_huber 2.277 242s
+  step 2500/8000 ce 0.4755 ball_huber 2.151 269s
+  step 2750/8000 ce 0.4695 ball_huber 2.094 296s
+  step 3000/8000 ce 0.4617 ball_huber 1.951 323s
+  step 3250/8000 ce 0.4553 ball_huber 1.914 350s
+  step 3500/8000 ce 0.4551 ball_huber 1.853 377s
+  step 3750/8000 ce 0.4448 ball_huber 1.786 403s
+  step 4000/8000 ce 0.4450 ball_huber 1.717 430s
+  step 4250/8000 ce 0.4414 ball_huber 1.651 457s
+  step 4500/8000 ce 0.3965 ball_huber 1.644 484s
+  step 4750/8000 ce 0.3132 ball_huber 1.616 511s
+  step 5000/8000 ce 0.2778 ball_huber 1.552 538s
+  step 5250/8000 ce 0.2613 ball_huber 1.533 565s
+  step 5500/8000 ce 0.2445 ball_huber 1.485 592s
+  step 5750/8000 ce 0.2303 ball_huber 1.409 619s
+  step 6000/8000 ce 0.2231 ball_huber 1.374 646s
+  step 6250/8000 ce 0.2199 ball_huber 1.369 673s
+  step 6500/8000 ce 0.2133 ball_huber 1.354 700s
+  step 6750/8000 ce 0.2085 ball_huber 1.311 727s
+  step 7000/8000 ce 0.2056 ball_huber 1.302 755s
+  step 7250/8000 ce 0.2066 ball_huber 1.298 783s
+  step 7500/8000 ce 0.2040 ball_huber 1.282 820s
+  step 7750/8000 ce 0.2025 ball_huber 1.266 861s
+  step 8000/8000 ce 0.2035 ball_huber 1.288 899s
+{"steps": 8000, "batch": 48, "train_seconds": 899.2861413955688, "gpu_peak_mb": 2068.2529296875, "train_steps_pool": 340521, "final_ce": 0.2034672912955284, "final_ball_huber": 1.2878619537353515, "held_out": "J03WMX"}
+fold: hold out J03WN1

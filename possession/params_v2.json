@@ -1,0 +1,14 @@
+{
+ "R": 1.0,
+ "BV": 0.5,
+ "KW": 20,
+ "W_HOLD": 0.3,
+ "W_DIFF": 0.6,
+ "ALPHA": 0.5,
+ "TEMP": 1.0,
+ "SWITCH_TEAM": 20.0,
+ "SWITCH_DEAD": 5.0,
+ "DECODER": "viterbi",
+ "variant": "players",
+ "selection": "best fixed cell by mean spellF1 over the 20 inner (match, match) folds, models not seeing either match"
+}

@@ -1,0 +1,119 @@
+{
+ "name": "s1_rules_seed1",
+ "lomo_spell_mean": 0.40752358535212646,
+ "lomo_spell_min": 0.39633986928104575,
+ "lomo_spell_max": 0.42344497607655496,
+ "lomo_macro_mean": 0.7836511188017428,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 80.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.42344497607655496,
+   "macro": 0.8154299072007158,
+   "n_pred": 325,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 80.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.3980558930741191,
+   "macro": 0.762426875083199,
+   "n_pred": 323,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 5.0,
+    "SWITCH_DEAD": 80.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.4021220159151193,
+   "macro": 0.783690996963153,
+   "n_pred": 352,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 80.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.39633986928104575,
+   "macro": 0.7696137099488282,
+   "n_pred": 309,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.4176551724137931,
+   "macro": 0.7870941048128176,
+   "n_pred": 304,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": {
+   "ALPHA": 0.0,
+   "TEMP": 1.0,
+   "SWITCH_TEAM": 10.0,
+   "SWITCH_DEAD": 80.0,
+   "DECODER": "viterbi"
+  },
+  "inner_pooled_spell": 0.4120168055888591,
+  "outer_spell_per_match": [
+   0.42344497607655496,
+   0.3980558930741191,
+   0.4174894217207335,
+   0.39633986928104575,
+   0.4247538677918425
+  ],
+  "outer_spell_mean": 0.4120168055888591,
+  "outer_macro_mean": 0.7840513849274005
+ },
+ "grid": {
+  "ALPHA": [
+   0.0
+  ],
+  "TEMP": [
+   1.0
+  ],
+  "SWITCH_TEAM": [
+   5.0,
+   10.0,
+   20.0,
+   40.0
+  ],
+  "SWITCH_DEAD": [
+   2.5,
+   5.0,
+   10.0,
+   20.0,
+   40.0,
+   80.0
+  ],
+  "DECODER": [
+   "viterbi"
+  ]
+ },
+ "seconds": 47.721977949142456
+}

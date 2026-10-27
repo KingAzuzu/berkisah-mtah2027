@@ -1,0 +1,120 @@
+{
+ "name": "s2_ball_seed0",
+ "lomo_spell_mean": 0.49859094976460605,
+ "lomo_spell_min": 0.4518238993710691,
+ "lomo_spell_max": 0.5561497326203209,
+ "lomo_macro_mean": 0.873551428417683,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "argmax"
+   },
+   "spell": 0.49964912280701756,
+   "macro": 0.8948000037864065,
+   "n_pred": 344,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "argmax"
+   },
+   "spell": 0.4796296296296296,
+   "macro": 0.8505830729824574,
+   "n_pred": 364,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "argmax"
+   },
+   "spell": 0.505702364394993,
+   "macro": 0.8734830585309002,
+   "n_pred": 317,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "argmax"
+   },
+   "spell": 0.4518238993710691,
+   "macro": 0.8566111018922139,
+   "n_pred": 339,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "argmax"
+   },
+   "spell": 0.5561497326203209,
+   "macro": 0.8922799048964376,
+   "n_pred": 327,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": {
+   "ALPHA": 0.25,
+   "TEMP": 1.0,
+   "SWITCH_TEAM": 20.0,
+   "SWITCH_DEAD": 5.0,
+   "DECODER": "argmax"
+  },
+  "inner_pooled_spell": 0.49823552478658206,
+  "outer_spell_per_match": [
+   0.49964912280701756,
+   0.4796296296296296,
+   0.505702364394993,
+   0.4518238993710691,
+   0.5561497326203209
+  ],
+  "outer_spell_mean": 0.49859094976460605,
+  "outer_macro_mean": 0.873551428417683
+ },
+ "grid": {
+  "ALPHA": [
+   0.25,
+   0.5,
+   1.0
+  ],
+  "TEMP": [
+   1.0,
+   2.0,
+   3.0
+  ],
+  "SWITCH_TEAM": [
+   5.0,
+   10.0,
+   20.0,
+   40.0
+  ],
+  "SWITCH_DEAD": [
+   5.0,
+   10.0,
+   20.0
+  ],
+  "DECODER": [
+   "argmax"
+  ]
+ },
+ "seconds": 542.8110089302063
+}

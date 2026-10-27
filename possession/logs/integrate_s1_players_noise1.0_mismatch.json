@@ -1,0 +1,79 @@
+{
+ "name": "s1_players_noise1.0_mismatch",
+ "lomo_spell_mean": 0.3690389048346013,
+ "lomo_spell_min": 0.3371428571428572,
+ "lomo_spell_max": 0.4102960102960103,
+ "lomo_macro_mean": 0.7992085355344927,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.3855646100116415,
+   "macro": 0.8222733108481807,
+   "n_pred": 348,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.3371428571428572,
+   "macro": 0.7704462386164979,
+   "n_pred": 340,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "ALPHA": 0.5,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.35880758807588076,
+   "macro": 0.8006129894415671,
+   "n_pred": 336,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "ALPHA": 0.5,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.3533834586466166,
+   "macro": 0.7789623317086174,
+   "n_pred": 342,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.4102960102960103,
+   "macro": 0.8237478070576009,
+   "n_pred": 356,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": null,
+  "outer_spell_mean": NaN
+ },
+ "seconds": 0
+}

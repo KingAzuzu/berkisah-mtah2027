@@ -1,0 +1,79 @@
+{
+ "name": "s1_ball_noise1.0_mismatch",
+ "lomo_spell_mean": 0.2613995571702668,
+ "lomo_spell_min": 0.23820224719101124,
+ "lomo_spell_max": 0.2842105263157895,
+ "lomo_macro_mean": 0.476996254413924,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.2842105263157895,
+   "macro": 0.5096186143379583,
+   "n_pred": 439,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "ALPHA": 0.5,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.24831932773109244,
+   "macro": 0.4577901095815589,
+   "n_pred": 452,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.23820224719101124,
+   "macro": 0.45417803918811755,
+   "n_pred": 399,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "ALPHA": 0.25,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.25865724381625443,
+   "macro": 0.45644207304234347,
+   "n_pred": 393,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "ALPHA": 0.5,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 20.0,
+    "SWITCH_DEAD": 5.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.2776084407971864,
+   "macro": 0.5069524359196415,
+   "n_pred": 432,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": null,
+  "outer_spell_mean": NaN
+ },
+ "seconds": 0
+}

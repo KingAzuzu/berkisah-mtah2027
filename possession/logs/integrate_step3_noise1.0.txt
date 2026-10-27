@@ -1,0 +1,37 @@
+noise1.0: features built 20s, 241 features
+  J03WMX spell 0.3111 macro 0.7945 spells 357/511 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WN1 spell 0.2884 macro 0.7451 spells 364/500 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WOH spell 0.3232 macro 0.7800 spells 343/402 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WOY spell 0.2757 macro 0.7473 spells 352/456 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WPY spell 0.3362 macro 0.7911 spells 338/421 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+ref_noise1.0: LOMO spellF1 0.3069 [0.2757, 0.3362] macroF1 0.7716  fixed-inner-best null outer nan (0s)
+  J03WMX spell 0.3856 macro 0.8223 spells 348/511 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WN1 spell 0.3371 macro 0.7704 spells 340/500 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOH spell 0.3588 macro 0.8006 spells 336/402 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOY spell 0.3534 macro 0.7790 spells 342/456 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WPY spell 0.4103 macro 0.8237 spells 356/421 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0}
+s1_players_noise1.0_mismatch: LOMO spellF1 0.3690 [0.3371, 0.4103] macroF1 0.7992  fixed-inner-best null outer nan (0s)
+  J03WMX spell 0.2842 macro 0.5096 spells 439/511 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WN1 spell 0.2483 macro 0.4578 spells 452/500 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOH spell 0.2382 macro 0.4542 spells 399/402 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOY spell 0.2587 macro 0.4564 spells 393/456 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WPY spell 0.2776 macro 0.5070 spells 432/421 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+s1_ball_noise1.0_mismatch: LOMO spellF1 0.2614 [0.2382, 0.2842] macroF1 0.4770  fixed-inner-best null outer nan (0s)
+  J03WMX spell 0.3627 macro 0.8040 spells 358/511 cell {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 80.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0}
+  J03WN1 spell 0.3201 macro 0.7584 spells 251/500 cell {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 40.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOH spell 0.3404 macro 0.7725 spells 330/402 cell {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 80.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0}
+  J03WOY spell 0.3447 macro 0.7549 spells 361/456 cell {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 80.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0}
+  J03WPY spell 0.3834 macro 0.8031 spells 349/421 cell {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 80.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0}
+s1_rules_noise1.0: LOMO spellF1 0.3503 [0.3201, 0.3834] macroF1 0.7786  fixed-inner-best {"ALPHA": 0.0, "DECODER": "viterbi", "SWITCH_DEAD": 80.0, "SWITCH_TEAM": 10.0, "TEMP": 1.0} outer 0.3559 (50s)
+  J03WMX spell 0.3794 macro 0.8269 spells 322/511 cell {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WN1 spell 0.3214 macro 0.7751 spells 284/500 cell {"ALPHA": 2.0, "DECODER": "viterbi", "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOH spell 0.3529 macro 0.7983 spells 320/402 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOY spell 0.3440 macro 0.7810 spells 280/456 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 10.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WPY spell 0.4189 macro 0.8245 spells 340/421 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+s1_players_noise1.0: LOMO spellF1 0.3633 [0.3214, 0.4189] macroF1 0.8012  fixed-inner-best {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 10.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0} outer 0.3733 (262s)
+  J03WMX spell 0.4096 macro 0.8578 spells 277/511 cell {"ALPHA": 0.25, "DECODER": "viterbi", "SWITCH_DEAD": 10.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WN1 spell 0.3951 macro 0.8264 spells 323/500 cell {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOH spell 0.4011 macro 0.8249 spells 338/402 cell {"ALPHA": 0.5, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WOY spell 0.3979 macro 0.8235 spells 323/456 cell {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+  J03WPY spell 0.4603 macro 0.8552 spells 276/421 cell {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0}
+s1_ball_noise1.0: LOMO spellF1 0.4128 [0.3951, 0.4603] macroF1 0.8375  fixed-inner-best {"ALPHA": 1.0, "DECODER": "viterbi", "SWITCH_DEAD": 5.0, "SWITCH_TEAM": 20.0, "TEMP": 1.0} outer 0.4190 (265s)

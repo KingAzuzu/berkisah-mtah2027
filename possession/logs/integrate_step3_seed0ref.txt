@@ -1,0 +1,7 @@
+seed0: features built 37s, 241 features
+  J03WMX spell 0.3002 macro 0.7784 spells 359/511 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WN1 spell 0.2804 macro 0.7402 spells 366/500 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WOH spell 0.3203 macro 0.7628 spells 351/402 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WOY spell 0.2814 macro 0.7326 spells 357/456 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+  J03WPY spell 0.3259 macro 0.7728 spells 351/421 cell {"OUT": 3.0, "R_CLOSE": 3.0, "SCALE": 1.0, "SWITCH_DEAD": 20.0, "SWITCH_TEAM": 10.0, "V0": 1.5, "VS": 0.5}
+ref_seed0: LOMO spellF1 0.3017 [0.2804, 0.3259] macroF1 0.7573  fixed-inner-best null outer nan (0s)

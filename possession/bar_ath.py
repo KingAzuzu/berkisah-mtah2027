@@ -66,14 +66,22 @@ def main():
     mtah_guard.refuse_under_claude()
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--method", choices=("v1", "v2"), default="v2",
+                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json)")
     args = ap.parse_args()
 
     ball, xy, team = load_atd()
     labels = np.full(len(ball), pm.D, np.int8)  # ungraded frames are ignored by the scorer
-    p = params()
+    if args.method == "v2":
+        from . import pipeline
+        p, models = pipeline.load_params(), pipeline.load_models()
+        predict = lambda half: pipeline.predict(half, p, models)  # noqa: E731
+    else:
+        p = params()
+        predict = lambda half: safety.predict(half, p)  # noqa: E731
     for _, first, last in half_video_blocks(GAME):
         half = {"ball": ball[first:last + 1], "xy": xy[first:last + 1], "team": team}
-        labels[first:last + 1] = safety.predict(half, p)
+        labels[first:last + 1] = predict(half)
     labels[FORCED_DEAD[0]:FORCED_DEAD[1] + 1] = pm.D
 
     letters = np.array(pm.LABELS)[labels]
@@ -82,7 +90,7 @@ def main():
     graded = join([labels[a:b + 1] for _, a, b in blocks])
     stats = pm.possession_stats(graded, pm.valid_runs(graded))
     seen = np.mean(np.concatenate([~np.isnan(ball[a:b + 1, 0]) for _, a, b in blocks]))
-    print(f"params {json.dumps(p) if p else 'defaults'}")
+    print(f"method {args.method}  params {json.dumps(p) if p else 'defaults'}")
     print(f"rows {len(letters)}  graded H {np.sum(graded == pm.H)}  A {np.sum(graded == pm.A)}  D {np.sum(graded == pm.D)}")
     print(f"possessions {stats['n_spells']}  mean {stats['mean_duration_s']:.1f} s  ball seen (graded) {seen:.3f}")
 

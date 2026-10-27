@@ -1,0 +1,12 @@
+{
+ "half_frames": 70708,
+ "threads": 4,
+ "torch": "2.11.0+cu128",
+ "identical": true,
+ "bytes_identical": true,
+ "cpu_seconds": [
+  2.143949031829834,
+  2.08951473236084
+ ],
+ "max_abs_prob_diff_cpu_vs_gpu": 1.6093254089355469e-06
+}

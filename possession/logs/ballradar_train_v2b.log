@@ -1,0 +1,7 @@
+torch 2.11.0+cu128 cuda True NVIDIA GeForce RTX 4060 Laptop GPU
+fold: hold out J03WMX
+  step 250/8000 ce 1.0530 ball 14.860 | val ce 0.7911 ball 6.599 acc 0.493 28s best@250
+  step 500/8000 ce 0.9096 ball 7.372 | val ce 0.4949 ball 4.163 acc 0.515 56s best@500
+  step 750/8000 ce 0.6347 ball 4.594 | val ce 0.3863 ball 2.977 acc 0.529 83s best@750
+  step 1000/8000 ce 0.5631 ball 3.597 | val ce 0.4201 ball 2.691 acc 0.516 111s best@750
+  step 1250/8000 ce 0.5288 ball 3.079 | val ce 0.3548 ball 2.095 acc 0.451 139s best@1250

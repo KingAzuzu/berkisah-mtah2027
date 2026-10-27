@@ -1,0 +1,89 @@
+{
+ "name": "ref_seed2",
+ "lomo_spell_mean": 0.3051266668064786,
+ "lomo_spell_min": 0.2801410105757932,
+ "lomo_spell_max": 0.3393316195372751,
+ "lomo_macro_mean": 0.7610360593052252,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "SCALE": 1.0,
+    "R_CLOSE": 3.0,
+    "V0": 1.5,
+    "VS": 0.5,
+    "OUT": 3.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0
+   },
+   "spell": 0.31227272727272726,
+   "macro": 0.7856782990012362,
+   "n_pred": 369,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "SCALE": 1.0,
+    "R_CLOSE": 3.0,
+    "V0": 1.5,
+    "VS": 0.5,
+    "OUT": 3.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0
+   },
+   "spell": 0.2896551724137931,
+   "macro": 0.7298730968647297,
+   "n_pred": 399,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "SCALE": 1.0,
+    "R_CLOSE": 3.0,
+    "V0": 1.5,
+    "VS": 0.5,
+    "OUT": 3.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0
+   },
+   "spell": 0.30423280423280424,
+   "macro": 0.7662360578029301,
+   "n_pred": 354,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "SCALE": 1.0,
+    "R_CLOSE": 3.0,
+    "V0": 1.5,
+    "VS": 0.5,
+    "OUT": 3.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0
+   },
+   "spell": 0.2801410105757932,
+   "macro": 0.7476424822395614,
+   "n_pred": 395,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "SCALE": 1.0,
+    "R_CLOSE": 3.0,
+    "V0": 1.5,
+    "VS": 0.5,
+    "OUT": 3.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 20.0
+   },
+   "spell": 0.3393316195372751,
+   "macro": 0.7757503606176686,
+   "n_pred": 357,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": null,
+  "outer_spell_mean": NaN
+ },
+ "seconds": 0
+}

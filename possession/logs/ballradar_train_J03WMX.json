@@ -1,0 +1,10 @@
+{
+ "steps": 8000,
+ "batch": 48,
+ "train_seconds": 899.2861413955688,
+ "gpu_peak_mb": 2068.2529296875,
+ "train_steps_pool": 340521,
+ "final_ce": 0.2034672912955284,
+ "final_ball_huber": 1.2878619537353515,
+ "held_out": "J03WMX"
+}

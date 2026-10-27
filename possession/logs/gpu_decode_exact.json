@@ -1,0 +1,280 @@
+{
+ "match": "J03WMX",
+ "cells": 8,
+ "halves": [
+  {
+   "half": 0,
+   "dtype": "f64",
+   "T": 70708,
+   "viterbi_cells_differing": 0,
+   "viterbi_frames_differing": 0,
+   "argmax_cells_differing": 0,
+   "argmax_frames_differing": 0,
+   "max_viterbi_rel_score_diff": 0.0,
+   "max_argmax_gap_at_diff": 0.0,
+   "rows_with_diffs": []
+  },
+  {
+   "half": 0,
+   "dtype": "f32",
+   "T": 70708,
+   "viterbi_cells_differing": 8,
+   "viterbi_frames_differing": 114,
+   "argmax_cells_differing": 8,
+   "argmax_frames_differing": 837,
+   "max_viterbi_rel_score_diff": 4.602555371601526e-07,
+   "max_argmax_gap_at_diff": 0.024601805409664557,
+   "rows_with_diffs": [
+    {
+     "cell": {
+      "SCALE": 2.0,
+      "V0": 1.5,
+      "VS": 1.0,
+      "SWITCH_TEAM": 5.0,
+      "SWITCH_DEAD": 10.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 53,
+     "argmax_diff": 28,
+     "viterbi_rel_score_diff": 2.1984447511443473e-07,
+     "argmax_max_gap_at_diff": 0.01331843423060508
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 2.0
+     },
+     "viterbi_diff": 6,
+     "argmax_diff": 2,
+     "viterbi_rel_score_diff": 3.3235719898749546e-07,
+     "argmax_max_gap_at_diff": 0.0001262601058992785
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 1.5,
+      "VS": 1.0,
+      "SWITCH_TEAM": 20.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 3,
+     "argmax_diff": 7,
+     "viterbi_rel_score_diff": 9.55714976254682e-08,
+     "argmax_max_gap_at_diff": 0.001668384840195436
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 2.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 20,
+     "argmax_diff": 67,
+     "viterbi_rel_score_diff": 1.9511774446592645e-07,
+     "argmax_max_gap_at_diff": 0.003607477657093461
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 2.0,
+      "VS": 1.0,
+      "SWITCH_TEAM": 3.0,
+      "SWITCH_DEAD": 40.0,
+      "TEMP": 2.0
+     },
+     "viterbi_diff": 4,
+     "argmax_diff": 662,
+     "viterbi_rel_score_diff": 1.3864591715287576e-08,
+     "argmax_max_gap_at_diff": 0.0022532970192528645
+    },
+    {
+     "cell": {
+      "SCALE": 2.0,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 5.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 13,
+     "argmax_diff": 7,
+     "viterbi_rel_score_diff": 4.602555371601526e-07,
+     "argmax_max_gap_at_diff": 0.005493509496325821
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 10.0,
+      "SWITCH_DEAD": 10.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 9,
+     "argmax_diff": 42,
+     "viterbi_rel_score_diff": 4.4393445951283076e-07,
+     "argmax_max_gap_at_diff": 0.007927160824142243
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 20.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 6,
+     "argmax_diff": 22,
+     "viterbi_rel_score_diff": 3.135892699976325e-07,
+     "argmax_max_gap_at_diff": 0.024601805409664557
+    }
+   ]
+  },
+  {
+   "half": 1,
+   "dtype": "f64",
+   "T": 75259,
+   "viterbi_cells_differing": 0,
+   "viterbi_frames_differing": 0,
+   "argmax_cells_differing": 0,
+   "argmax_frames_differing": 0,
+   "max_viterbi_rel_score_diff": 0.0,
+   "max_argmax_gap_at_diff": 0.0,
+   "rows_with_diffs": []
+  },
+  {
+   "half": 1,
+   "dtype": "f32",
+   "T": 75259,
+   "viterbi_cells_differing": 8,
+   "viterbi_frames_differing": 100,
+   "argmax_cells_differing": 8,
+   "argmax_frames_differing": 1125,
+   "max_viterbi_rel_score_diff": 2.602617161998116e-07,
+   "max_argmax_gap_at_diff": 0.1633886274829957,
+   "rows_with_diffs": [
+    {
+     "cell": {
+      "SCALE": 2.0,
+      "V0": 1.5,
+      "VS": 1.0,
+      "SWITCH_TEAM": 5.0,
+      "SWITCH_DEAD": 10.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 7,
+     "argmax_diff": 31,
+     "viterbi_rel_score_diff": 2.602617161998116e-07,
+     "argmax_max_gap_at_diff": 0.01115706652138937
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 2.0
+     },
+     "viterbi_diff": 20,
+     "argmax_diff": 6,
+     "viterbi_rel_score_diff": 8.401486643223961e-08,
+     "argmax_max_gap_at_diff": 0.0014208580617662836
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 1.5,
+      "VS": 1.0,
+      "SWITCH_TEAM": 20.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 5,
+     "argmax_diff": 9,
+     "viterbi_rel_score_diff": 1.173960772484297e-07,
+     "argmax_max_gap_at_diff": 0.0016413092788465922
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 2.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 12,
+     "argmax_diff": 123,
+     "viterbi_rel_score_diff": 1.3619662792335947e-07,
+     "argmax_max_gap_at_diff": 0.0013727820582654093
+    },
+    {
+     "cell": {
+      "SCALE": 1.0,
+      "V0": 2.0,
+      "VS": 1.0,
+      "SWITCH_TEAM": 3.0,
+      "SWITCH_DEAD": 40.0,
+      "TEMP": 2.0
+     },
+     "viterbi_diff": 31,
+     "argmax_diff": 673,
+     "viterbi_rel_score_diff": 1.6088712259922348e-07,
+     "argmax_max_gap_at_diff": 0.00222875251892507
+    },
+    {
+     "cell": {
+      "SCALE": 2.0,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 40.0,
+      "SWITCH_DEAD": 5.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 8,
+     "argmax_diff": 164,
+     "viterbi_rel_score_diff": 2.2392600551043043e-07,
+     "argmax_max_gap_at_diff": 0.010024312981206318
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 10.0,
+      "SWITCH_DEAD": 10.0,
+      "TEMP": 0.5
+     },
+     "viterbi_diff": 13,
+     "argmax_diff": 95,
+     "viterbi_rel_score_diff": 1.2273689756733075e-07,
+     "argmax_max_gap_at_diff": 0.1633886274829957
+    },
+    {
+     "cell": {
+      "SCALE": 0.5,
+      "V0": 1.0,
+      "VS": 0.5,
+      "SWITCH_TEAM": 20.0,
+      "SWITCH_DEAD": 20.0,
+      "TEMP": 1.0
+     },
+     "viterbi_diff": 4,
+     "argmax_diff": 24,
+     "viterbi_rel_score_diff": 1.2980980932279183e-07,
+     "argmax_max_gap_at_diff": 0.005811987975863797
+    }
+   ]
+  }
+ ]
+}

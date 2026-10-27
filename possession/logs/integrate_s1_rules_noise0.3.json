@@ -1,0 +1,119 @@
+{
+ "name": "s1_rules_noise0.3",
+ "lomo_spell_mean": 0.40440780991678693,
+ "lomo_spell_min": 0.3640506329113924,
+ "lomo_spell_max": 0.4385026737967914,
+ "lomo_macro_mean": 0.7883768800197873,
+ "held_out": {
+  "J03WMX": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.409557945041816,
+   "macro": 0.8134191705582658,
+   "n_pred": 326,
+   "n_gt": 511
+  },
+  "J03WN1": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.39326113116726835,
+   "macro": 0.7687692563327805,
+   "n_pred": 331,
+   "n_gt": 500
+  },
+  "J03WOH": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.4166666666666667,
+   "macro": 0.7908027434340009,
+   "n_pred": 318,
+   "n_gt": 402
+  },
+  "J03WOY": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.3640506329113924,
+   "macro": 0.7636844781102753,
+   "n_pred": 334,
+   "n_gt": 456
+  },
+  "J03WPY": {
+   "cell": {
+    "ALPHA": 0.0,
+    "TEMP": 1.0,
+    "SWITCH_TEAM": 10.0,
+    "SWITCH_DEAD": 40.0,
+    "DECODER": "viterbi"
+   },
+   "spell": 0.4385026737967914,
+   "macro": 0.8052087516636139,
+   "n_pred": 327,
+   "n_gt": 421
+  }
+ },
+ "fixed_inner_best": {
+  "cell": {
+   "ALPHA": 0.0,
+   "TEMP": 1.0,
+   "SWITCH_TEAM": 10.0,
+   "SWITCH_DEAD": 40.0,
+   "DECODER": "viterbi"
+  },
+  "inner_pooled_spell": 0.40440780991678693,
+  "outer_spell_per_match": [
+   0.409557945041816,
+   0.39326113116726835,
+   0.4166666666666667,
+   0.3640506329113924,
+   0.4385026737967914
+  ],
+  "outer_spell_mean": 0.40440780991678693,
+  "outer_macro_mean": 0.7883768800197873
+ },
+ "grid": {
+  "ALPHA": [
+   0.0
+  ],
+  "TEMP": [
+   1.0
+  ],
+  "SWITCH_TEAM": [
+   5.0,
+   10.0,
+   20.0,
+   40.0
+  ],
+  "SWITCH_DEAD": [
+   2.5,
+   5.0,
+   10.0,
+   20.0,
+   40.0,
+   80.0
+  ],
+  "DECODER": [
+   "viterbi"
+  ]
+ },
+ "seconds": 50.06451344490051
+}
