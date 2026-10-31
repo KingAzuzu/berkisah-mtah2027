@@ -142,3 +142,8 @@ Batas "dipakai" untuk tiap ide sudah ditetapkan di sini, sebelum melihat hasil.
 - v2.1 assumption checked label-free on real tracking (`possession/ball_loss_check.py`): P(ball missing | v2 says D) 0.702 vs alive 0.101 (simulator 0.636 / 0.256). Holds.
 - Competition CSVs: v2 (393 poss, mean 7.9 s), v1 backup, **v2.1 (461 poss, mean 8.1 s): chosen for submission**. All valid, rerun identical. Public 5-min check (alignment only, not tuning): v2 latency -0.3 frames, alive/dead F1 0.95.
 - TODO: rename the v2.1 CSV to `<team_name>.csv`; update `docs/technical_document.md` from v2 to v2.1 (numbers above); 3rd member by 10 Nov; submit by 17 Nov. Ball Radar (WS5) not used.
+
+## v3 (1 Nov 2026): TCN + v2.1 fusion
+- v3 = 3-seed TCN ensemble fused 50/50 with v2.1 evidence, then Viterbi (params_v2_1 costs). LOMO spellF1 on TUNE under matched2: ensemble 0.641 [0.597, 0.681] vs v2.1 0.556; single seeds 0.621-0.627. `results/tcn.md`.
+- Wired as `possession.bar_ath --method v3` (torch imported lazily; default stays v2). Weights `possession/models/tcn_v3_s{0,1,2}.pt`, `params_v3.json`. torch 2.11.0 (CPU build) pinned in `requirements-submission.txt`.
+- Determinism verified incl. fresh clone + fresh venv (`results/reproducibility.md`). Not yet run on the competition tracking: human runs `.\run_all.ps1 v3`.

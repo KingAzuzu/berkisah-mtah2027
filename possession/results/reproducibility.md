@@ -50,3 +50,9 @@ The IDSSE data was read in place via `--idsse-data` (or env var `IDSSE_DATA_DIR`
 - Verified: same machine, same Windows/CPU, same pinned wheels. Not verified: another machine or CPU architecture (HGB prediction sums floats per sample over trees in fixed order, so I expect identity, but it is untested), and the full BAR-ATH run.
 - The test covers `pipeline.predict` on one half. The remaining steps in `bar_ath.py` (ATD parsing, forced-D block 110,808-113,741, CSV writing) are not exercised here. For the real file the human should run `bar_ath` twice in the clean venv and `cmp` the two CSVs, then run `evaluation\validate_submission.py`.
 - The IDSSE degraded half comes from a pickle cache; `degrade.py` seeds with crc32 (`zlib`), so regeneration should be deterministic, but cache regeneration was not retested here.
+
+## v3 (TCN 3-seed ensemble + v2.1 fusion), 1 Nov 2026
+`python -m possession.repro_check --method v3 --threads N` on IDSSE J03WMX half 0 (full, undegraded, no truth passed).
+Label SHA-256 `95ed2024bc92fa0f2ef8d695b19f392764f8df95db0c5a006ae41abe93691f3c` at 1, 4, 16 threads and on a second run at 1 thread.
+Fresh `git clone` into a temp dir, fresh `py -3.12` venv, `pip install -r requirements-submission.txt` (torch 2.11.0+cpu from the PyTorch CPU index; dev venv has 2.11.0+cu128): same hash at 1 and 16 threads.
+Inference is CPU, float32, `torch.set_num_threads(1)`, `torch.use_deterministic_algorithms(True)`. Training is GPU and not byte-reproducible; the committed weights are the artifact.
