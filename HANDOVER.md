@@ -132,3 +132,13 @@ Batas "dipakai" untuk tiap ide sudah ditetapkan di sini, sebelum melihat hasil.
 | 14 Jan, 11:00 CET | Deliverable Phase 2 |
 | 22 Feb, 11:00 CET | Deck final (hanya untuk 5 finalis) |
 | 2 Mar 2027 | Final di Fira Barcelona Montjuïc |
+
+## Status 1 Nov 2026 (latest; supersedes older status lines above)
+
+- Data bundle unpacked by the human into the repo's `train` folder (gitignored, guarded). Videos (zip parts 001/002) not used.
+- `run_all.ps1` (human only) builds the CSVs, validates, checks rerun identity, prints input stats. `run_all.ps1 v2_1` does the v2.1 run.
+- Real ATD aggregates: ball seen 0.593; ball-missing runs mean 17.2 s (we had assumed 2 s); tracklets mean 107 s; ball jitter ~1-2 cm. Camera-centre idea: median 23.6 m, FAIL.
+- Matched simulator `possession/degrade_matched.py`, LOMO spellF1 on TUNE: v1 0.296, v2 0.430, **v2.1 0.489 (5/5 matches)**. v2.1 = v2 + dead-ball model with ball features (`params_v2_1.json`, `models/dead_v2_1.joblib`). `results/matched_degrade.md`.
+- v2.1 assumption checked label-free on real tracking (`possession/ball_loss_check.py`): P(ball missing | v2 says D) 0.702 vs alive 0.101 (simulator 0.636 / 0.256). Holds.
+- Competition CSVs: v2 (393 poss, mean 7.9 s), v1 backup, **v2.1 (461 poss, mean 8.1 s): chosen for submission**. All valid, rerun identical. Public 5-min check (alignment only, not tuning): v2 latency -0.3 frames, alive/dead F1 0.95.
+- TODO: rename the v2.1 CSV to `<team_name>.csv`; update `docs/technical_document.md` from v2 to v2.1 (numbers above); 3rd member by 10 Nov; submit by 17 Nov. Ball Radar (WS5) not used.
