@@ -29,6 +29,18 @@ if ($hit.Directory.Name -ne "tactical") { Write-Host "WARNING: $want is not insi
 $env:MTAH_DATA_DIR = $hit.Directory.Parent.FullName
 Write-Host "data dir: $env:MTAH_DATA_DIR"
 
+if ($args[0] -eq "v2_1") {
+    Write-Host "== v2.1: ball-loss check, submission, validator, rerun =="
+    & $py -m possession.ball_loss_check --bar-ath "$r\v2.csv"
+    & $py -m possession.bar_ath --method v2_1 --out "$r\v2_1.csv"
+    & $py evaluation\validate_submission.py "$r\v2_1.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v2_1 --out "$r\v2_1_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v2_1.csv").Hash -eq (Get-FileHash "$r\v2_1_run2.csv").Hash)
+    Remove-Item "$r\v2_1_run2.csv" -ErrorAction SilentlyContinue
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
+
 Write-Host "== 1. submission v2 + backup v1 =="
 & $py -m possession.bar_ath --method v2 --out "$r\v2.csv"
 if (-not (Test-Path "$r\v2.csv")) { Write-Host "STOP: v2 failed"; exit 1 }
