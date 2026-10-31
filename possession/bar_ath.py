@@ -66,15 +66,17 @@ def main():
     mtah_guard.refuse_under_claude()
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("--method", choices=("v1", "v2"), default="v2",
-                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json)")
+    ap.add_argument("--method", choices=("v1", "v2", "v2_1"), default="v2",
+                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json); v2_1 = same with ball-feature model (params_v2_1.json)")
     args = ap.parse_args()
 
     ball, xy, team = load_atd()
     labels = np.full(len(ball), pm.D, np.int8)  # ungraded frames are ignored by the scorer
-    if args.method == "v2":
+    if args.method in ("v2", "v2_1"):
         from . import pipeline
-        p, models = pipeline.load_params(), pipeline.load_models()
+        sfx = "" if args.method == "v2" else "_1"
+        p = pipeline.load_params(Path(__file__).with_name(f"params_v2{sfx}.json"))
+        models = pipeline.load_models(Path(__file__).with_name("models") / f"dead_v2{sfx}.joblib")
         predict = lambda half: pipeline.predict(half, p, models)  # noqa: E731
     else:
         p = params()
