@@ -22,7 +22,7 @@ def norm(s):
 
 
 def data_dirs():
-    dirs = [os.environ.get("MTAH_DATA_DIR", ""), "D:/mtah-data"]
+    dirs = [os.environ.get("MTAH_DATA_DIR", ""), "D:/mtah-data", "D:/barca/train"]
     return [norm(d).rstrip("/") for d in dirs if d]
 
 
