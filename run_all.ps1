@@ -4,7 +4,6 @@
 # evaluation\results\ (gitignored).
 $ErrorActionPreference = "Continue"
 $env:MTAH_DATA_DIR = "D:\barca\train"
-Remove-Item Env:CLAUDECODE -ErrorAction SilentlyContinue
 $py = "idsse-tests\.venv\Scripts\python"
 $r = "evaluation\results"
 

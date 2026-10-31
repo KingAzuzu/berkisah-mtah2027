@@ -26,6 +26,8 @@ from .model import BallRadar
 
 LOGS = Path(__file__).resolve().parent.parent / "logs"
 DEV = "cuda"
+VAL_BLOCK = 1000  # steps (200 s at 5 Hz)
+BF16 = True
 
 
 class Pool:
@@ -40,13 +42,27 @@ class Pool:
                   ("slot", "mask", "ball", "seen", "truth5", "ball_true", "ball_true_ok")}
         self.t["truth5"] = self.t["truth5"].long()
         self.team = torch.from_numpy(parts[0]["team"]).long().to(DEV)
-        starts, off = [], 0
+        # ~10% validation: every 10th block of VAL_BLOCK steps of each half (same blocks in every degrade
+        # seed of a match, so no leakage across seeds). Training windows never touch a validation block.
+        starts, vstarts, off = [], [], 0
         for h in parts:
             n = len(h["seen"])
-            starts.append(np.arange(off, off + n - W + 1))
+            s = np.arange(n - W + 1)
+            b0, b1 = (s // VAL_BLOCK) % 10 == 9, ((s + W - 1) // VAL_BLOCK) % 10 == 9
+            starts.append(off + s[~b0 & ~b1])
+            vstarts.append(off + s[b0 & b1 & (s // VAL_BLOCK == (s + W - 1) // VAL_BLOCK) & (s % 50 == 0)])
             off += n
         self.starts = torch.from_numpy(np.concatenate(starts)).to(DEV)
+        self.vstarts = torch.from_numpy(np.concatenate(vstarts)).to(DEV)
         self.n_steps = off
+
+    def val_batches(self, B):
+        """Fixed validation windows, no augmentation."""
+        for i in range(0, len(self.vstarts), B):
+            idx = self.vstarts[i:i + B, None] + torch.arange(W, device=DEV)
+            t = self.t
+            yield (t["slot"][idx], t["mask"][idx], self.team[None].expand(len(idx), -1), t["ball"][idx],
+                   t["seen"][idx], t["truth5"][idx], t["ball_true"][idx], t["ball_true_ok"][idx])
 
     def batch(self, B, gen):
         s = self.starts[torch.randint(len(self.starts), (B,), device=DEV, generator=gen)]
@@ -78,7 +94,9 @@ class Pool:
 
 def loss_fn(model, b):
     slot, mask, team, ball, seen, truth, bt, btok = b
-    pb, logits = model(slot, mask, team, ball, seen)
+    with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=BF16):
+        pb, logits = model(slot, mask, team, ball, seen)
+    pb, logits = pb.float(), logits.float()
     ce = F.cross_entropy(logits.reshape(-1, 3), truth.reshape(-1))
     hub = F.smooth_l1_loss(pb, bt, beta=2.0, reduction="none").mean(-1)
     w = torch.where(seen, 0.05, 1.0) * btok
@@ -86,7 +104,7 @@ def loss_fn(model, b):
     return ce + 0.1 * lb, ce.item(), lb.item()
 
 
-def train(mids, steps, seed=0, batch=48, lr=1e-3, log=print):
+def train(mids, steps, seed=0, batch=192, lr=1.5e-3, patience=3, eval_every=250, log=print):
     torch.manual_seed(seed)
     gen = torch.Generator(device=DEV)
     gen.manual_seed(seed)
@@ -95,7 +113,7 @@ def train(mids, steps, seed=0, batch=48, lr=1e-3, log=print):
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-2)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=lr, total_steps=steps, pct_start=0.05)
     torch.cuda.reset_peak_memory_stats()
-    t0, hist = time.time(), []
+    t0, hist, best, evals = time.time(), [], (1e9, None, 0), []
     model.train()
     for it in range(1, steps + 1):
         loss, ce, lb = loss_fn(model, pool.batch(batch, gen))
@@ -105,13 +123,33 @@ def train(mids, steps, seed=0, batch=48, lr=1e-3, log=print):
         opt.step()
         sched.step()
         hist.append((ce, lb))
-        if it % 250 == 0 or it == steps:
-            h = np.mean(hist[-250:], axis=0)
-            log(f"  step {it}/{steps} ce {h[0]:.4f} ball_huber {h[1]:.3f} {time.time() - t0:.0f}s")
-    info = {"steps": steps, "batch": batch, "train_seconds": time.time() - t0,
+        if it % eval_every == 0 or it == steps:
+            h = np.mean(hist[-eval_every:], axis=0)
+            model.eval()
+            with torch.no_grad():
+                v, acc = [], []
+                for b in pool.val_batches(64):
+                    v.append(loss_fn(model, b)[1:])
+                    with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=BF16):
+                        lg = model(*b[:5])[1]
+                    al = b[5] < 2
+                    acc.append(((lg[..., :2].argmax(-1) == b[5])[al].float().mean().item()))
+                v = np.mean(v, axis=0)
+                vacc = float(np.mean(acc))
+            model.train()
+            vl = float(v[0] + 0.1 * v[1])
+            evals.append({"step": it, "val_ce": float(v[0]), "val_ball": float(v[1]), "val_loss": vl, "val_team_acc_alive": vacc})
+            if vl < best[0]:
+                best = (vl, {k: x.detach().clone() for k, x in model.state_dict().items()}, it)
+            log(f"  step {it}/{steps} ce {h[0]:.4f} ball {h[1]:.3f} | val ce {v[0]:.4f} ball {v[1]:.3f} acc {vacc:.3f} "
+                f"{time.time() - t0:.0f}s best@{best[2]}")
+            if it - best[2] >= patience * eval_every:
+                log("  early stop")
+                break
+    model.load_state_dict(best[1])
+    info = {"steps_max": steps, "steps_run": it, "best_step": best[2], "evals": evals, "batch": batch, "lr": lr, "bf16": BF16, "train_seconds": time.time() - t0,
             "gpu_peak_mb": torch.cuda.max_memory_allocated() / 2**20, "train_steps_pool": pool.n_steps,
-            "final_ce": float(np.mean([h[0] for h in hist[-250:]])),
-            "final_ball_huber": float(np.mean([h[1] for h in hist[-250:]]))}
+            "val_loss_best": best[0]}
     del pool
     return model.eval(), info
 
@@ -131,31 +169,37 @@ def main():
     ap.add_argument("--folds", action="store_true")
     ap.add_argument("--final", action="store_true")
     ap.add_argument("--bench", action="store_true")
-    ap.add_argument("--steps", type=int, default=6000)
+    ap.add_argument("--steps", type=int, default=3000)
+    ap.add_argument("--batch", type=int, default=192)
+    ap.add_argument("--lr", type=float, default=1.5e-3)
+    ap.add_argument("--no-bf16", action="store_true")
+    ap.add_argument("--patience", type=int, default=3)
     ap.add_argument("--only", nargs="+", default=list(TUNE))
     a = ap.parse_args()
     LOGS.mkdir(exist_ok=True)
     pr = lambda s: print(s, flush=True)
+    global BF16
+    BF16 = not a.no_bf16
     pr(f"torch {torch.__version__} cuda {torch.cuda.is_available()} {torch.cuda.get_device_name(0)}")
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     if a.bench:
-        _, info = train(TUNE[1:], 100, log=pr)
+        _, info = train(TUNE[1:], 100, batch=a.batch, lr=a.lr, eval_every=50, log=pr)
         pr(json.dumps(info))
     if a.folds:
         for m in a.only:
             pr(f"fold: hold out {m}")
-            model, info = train([x for x in TUNE if x != m], a.steps, log=pr)
+            model, info = train([x for x in TUNE if x != m], a.steps, batch=a.batch, lr=a.lr, patience=a.patience, log=pr)
             heldout(model, m)
             info["held_out"] = m
             (LOGS / f"ballradar_train_{m}.json").write_text(json.dumps(info, indent=1))
             pr(json.dumps(info))
     if a.final:
         pr("final: all tuning matches")
-        model, info = train(list(TUNE), a.steps, log=pr)
+        model, info = train(list(TUNE), a.steps, batch=a.batch, lr=a.lr, patience=a.patience, log=pr)
         MODEL_PATH.parent.mkdir(exist_ok=True)
         torch.save({"cfg": model.cfg, "state_dict": {k: v.cpu() for k, v in model.state_dict().items()},
-                    "torch": torch.__version__, "steps": a.steps}, MODEL_PATH)
+                    "torch": torch.__version__, "steps": info["steps_run"]}, MODEL_PATH)
         (LOGS / "ballradar_train_final.json").write_text(json.dumps(info, indent=1))
         pr(json.dumps(info))
 

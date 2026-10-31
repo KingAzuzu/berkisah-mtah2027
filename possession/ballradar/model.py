@@ -39,7 +39,7 @@ class BallRadar(nn.Module):
         self.cls = nn.Parameter(torch.zeros(1, 1, d))
         self.blocks = nn.ModuleList(Block(d, heads) for _ in range(layers))
         self.out_norm = nn.LayerNorm(d)
-        self.frame = nn.Sequential(nn.Linear(3 * d + 3, hidden), nn.GELU(), nn.Dropout(dropout))
+        self.frame = nn.Sequential(nn.Linear(3 * d + 6, hidden), nn.GELU(), nn.Dropout(dropout))
         self.lstm = nn.LSTM(hidden, hidden, lstm_layers, batch_first=True, bidirectional=True,
                             dropout=dropout if lstm_layers > 1 else 0.0)
         self.ball_head = nn.Sequential(nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, 2))
@@ -70,6 +70,14 @@ class BallRadar(nn.Module):
         mean_h = (pl * mh).sum(1) / mh.sum(1).clamp(min=1.0)
         mean_a = (pl * ma).sum(1) / ma.sum(1).clamp(min=1.0)
         z = torch.cat([x[:, 0], mean_h, mean_a], dim=-1).reshape(B, T, -1)
-        z = self.frame(torch.cat([z, ball / sc * sn, sn], dim=-1))
+        # explicit nearest-player-per-team distances to the observed ball (large + flag when unseen)
+        tt = team[:, None, :].expand(B, T, S)
+        far = 30.0
+        ok = mask & seen[:, :, None]
+        dd = torch.where(ok, dist[..., 0], torch.full_like(dist[..., 0], far))
+        dh = torch.where(tt == 0, dd, torch.full_like(dd, far)).amin(-1)
+        da = torch.where(tt == 1, dd, torch.full_like(dd, far)).amin(-1)
+        near = torch.stack([dh / 10.0, da / 10.0, ((da - dh) / 10.0).clamp(-3, 3) * sn[..., 0]], dim=-1)
+        z = self.frame(torch.cat([z, ball / sc * sn, sn, near], dim=-1))
         h, _ = self.lstm(z)
         return self.ball_head(h) * sc, self.team_head(h)
