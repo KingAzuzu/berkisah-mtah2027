@@ -1,7 +1,7 @@
 # Exact pins for the v2 submission path (rules evidence + players-only dead-ball HGB + Viterbi).
 # CPU only, Python 3.12.10. Found by import tracing: possession.pipeline / dead / rules / safety / mbr /
 # data / run_idsse, idsse-tests/idsse.py, evaluation/possession_metrics.py, starter/baseline.py, games.py.
-# torch is NOT needed (Ball Radar is not part of v2). Versions match the ones stored in models/dead_v2.joblib.
+# torch is needed only for --method v3 (see the end of the file); v1, v2 and v2_1 do not import it.
 numpy==2.5.4
 pandas==3.1.0
 scipy==1.18.1
@@ -13,3 +13,6 @@ six==1.17.0
 tzdata==2026.5
 cloudpickle==3.1.2
 narwhals==2.28.0
+# v3 only (TCN): CPU build of PyTorch, installed from the PyTorch CPU index. Used lazily, CPU, float32, 1 thread.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.11.0

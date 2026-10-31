@@ -92,3 +92,11 @@ def load_params(path=None):
 def load_models(path=None):
     import joblib
     return joblib.load(path or HERE / "models" / "dead_v2.joblib")
+
+
+def v3_predictor():
+    """-> (params, predict(half)) for v3 (TCN seed ensemble + v2.1 evidence, 50/50, Viterbi). torch imported only here."""
+    from . import tcn_v3
+    p = tcn_v3.load_params()
+    models, nets = load_models(HERE / "models" / "dead_v2_1.joblib"), tcn_v3.load_nets(params=p)
+    return p, lambda half: tcn_v3.predict(half, p, models, nets)

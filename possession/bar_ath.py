@@ -66,8 +66,8 @@ def main():
     mtah_guard.refuse_under_claude()
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("--method", choices=("v1", "v2", "v2_1"), default="v2",
-                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json); v2_1 = same with ball-feature model (params_v2_1.json)")
+    ap.add_argument("--method", choices=("v1", "v2", "v2_1", "v3"), default="v2",
+                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json); v2_1 = same with ball-feature model (params_v2_1.json); v3 = TCN + v2.1 fusion (params_v3.json, needs torch)")
     args = ap.parse_args()
 
     ball, xy, team = load_atd()
@@ -78,6 +78,9 @@ def main():
         p = pipeline.load_params(Path(__file__).with_name(f"params_v2{sfx}.json"))
         models = pipeline.load_models(Path(__file__).with_name("models") / f"dead_v2{sfx}.joblib")
         predict = lambda half: pipeline.predict(half, p, models)  # noqa: E731
+    elif args.method == "v3":
+        from . import pipeline
+        p, predict = pipeline.v3_predictor()
     else:
         p = params()
         predict = lambda half: safety.predict(half, p)  # noqa: E731

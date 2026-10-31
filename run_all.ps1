@@ -41,6 +41,17 @@ if ($args[0] -eq "v2_1") {
     exit 0
 }
 
+if ($args[0] -eq "v3") {
+    Write-Host "== v3: TCN + v2.1 fusion, submission, validator, rerun =="
+    & $py -m possession.bar_ath --method v3 --out "$r\v3.csv"
+    & $py evaluation\validate_submission.py "$r\v3.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v3 --out "$r\v3_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v3.csv").Hash -eq (Get-FileHash "$r\v3_run2.csv").Hash)
+    Remove-Item "$r\v3_run2.csv" -ErrorAction SilentlyContinue
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
+
 Write-Host "== 1. submission v2 + backup v1 =="
 & $py -m possession.bar_ath --method v2 --out "$r\v2.csv"
 if (-not (Test-Path "$r\v2.csv")) { Write-Host "STOP: v2 failed"; exit 1 }

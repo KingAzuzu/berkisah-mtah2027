@@ -1,6 +1,6 @@
 """Determinism / reproducibility check for the v2 labelling path on one degraded IDSSE tuning half.
 
-    python -m possession.repro_check [--match J03WMX] [--half 0] [--threads 1] [--idsse-data PATH]
+    python -m possession.repro_check [--match J03WMX] [--half 0] [--threads 1] [--method v2|v3] [--idsse-data PATH]
 
 Prints SHA-256 of the label bytes (int8 codes H 0 / A 1 / D 2) and of the letters string. Only IDSSE
 tuning matches are accepted (the locked ones are refused). The half is passed to the pipeline as
@@ -16,6 +16,7 @@ from pathlib import Path
 ap = argparse.ArgumentParser()
 ap.add_argument("--match", default="J03WMX")
 ap.add_argument("--half", type=int, default=0)
+ap.add_argument("--method", choices=("v2", "v3"), default="v2")
 ap.add_argument("--threads", type=int, default=1)
 ap.add_argument("--idsse-data", default=os.environ.get("IDSSE_DATA_DIR"),
                 help="folder holding the IDSSE xml files and cache/ (default: <repo>/idsse-tests/data)")
@@ -37,7 +38,10 @@ if args.idsse_data:
 
 full = run_idsse.load(args.match)[args.half]
 half = {k: full[k] for k in ("ball", "xy", "team")}  # no truth
-codes = pipeline.predict(half, pipeline.load_params(), pipeline.load_models())
+if args.method == "v3":
+    codes = pipeline.v3_predictor()[1](half)
+else:
+    codes = pipeline.predict(half, pipeline.load_params(), pipeline.load_models())
 letters = "".join(np.array(pm.LABELS)[codes])
 print(f"python {sys.version.split()[0]} numpy {np.__version__} sklearn {sklearn.__version__} threads {args.threads}")
 print(f"match {args.match} half {args.half} frames {len(codes)}  counts H {np.sum(codes == 0)} "
