@@ -9,14 +9,16 @@ $r = "evaluation\results"
 $want = "BAR-ATH_tactical_atd.txt"
 
 Write-Host "== 0. locate the bundle =="
-$hit = Get-ChildItem $root -Recurse -Filter $want -ErrorAction SilentlyContinue | Select-Object -First 1
-if (-not $hit) {
-    foreach ($z in Get-ChildItem $root -Recurse -Filter *.zip) {
-        Write-Host "unzipping $($z.Name)"
-        Expand-Archive $z.FullName -DestinationPath (Join-Path $z.DirectoryName $z.BaseName) -Force
-    }
-    $hit = Get-ChildItem $root -Recurse -Filter $want -ErrorAction SilentlyContinue | Select-Object -First 1
+# Google Drive splits a download into several zips (...-1-001.zip, -002, ...), each holding different
+# files. Unzip them all into one folder so the parts merge.
+$dest = Join-Path $root "bundle"
+$zips = @(Get-ChildItem $root -Recurse -Filter *.zip)
+Write-Host "zip parts found: $($zips.Count)"
+if (-not (Test-Path $dest)) {
+    foreach ($z in $zips) { Write-Host "unzipping $($z.Name)"; Expand-Archive $z.FullName -DestinationPath $dest -Force }
 }
+$hit = Get-ChildItem $dest -Recurse -Filter $want -ErrorAction SilentlyContinue | Select-Object -First 1
+if (-not $hit) { $hit = Get-ChildItem $root -Recurse -Filter $want -ErrorAction SilentlyContinue | Select-Object -First 1 }
 if (-not $hit) {
     Write-Host "NOT FOUND: $want. File types under train (count per extension):"
     Get-ChildItem $root -Recurse -File | Group-Object Extension | ForEach-Object { "  $($_.Name)  $($_.Count)" }
