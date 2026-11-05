@@ -1,0 +1,6 @@
+result keys ['macro_f1', 'spell_f1_mean', 'spell_f1_at_headline', 'spell_iou_headline', 'spell_bootstrap_low', 'spell_bootstrap_high', 'n_gt_spells', 'n_pred_spells', 'spell_count_error', 'mean_spell_duration_s', 'gt_mean_spell_duration_s', 'accuracy', 'kappa', 'alive_dead_f1', 'team_acc_gt_alive', 'team_acc_both_alive', 'gt_home_share', 'pred_home_share', 'share_err', 'share_defined', 'n_gt_segments', 'n_pred_segments', 'fragmentation', 'n_frames', 'n_graded', 'n_abstain_on_graded', 'bootstrap_low', 'bootstrap_high', 'bootstrap_n', 'confusion', 'per_class', 'transitions', 'spell_f1', 'gt_home_share_spells']
+v4 0.6639 nested 0.6790 [0.6183,0.7324] wins 5/5
+selected [(12, 8, 0.8, 0.6), (12, 3, 0.8, 0.6), (8, 3, 0.6, 0.6), (12, 8, 0.8, 0.6), (8, 3, 0.6, 0.6)]
+counts v4 [(None, None), (None, None), (None, None), (None, None), (None, None)]
+counts nested [(None, None), (None, None), (None, None), (None, None), (None, None)]
+best global {'point': (12, 8, 0.8, 0.6), 'mean': 0.6829144797075883}

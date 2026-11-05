@@ -63,6 +63,17 @@ if ($args[0] -eq "v4") {
     exit 0
 }
 
+if ($args[0] -eq "v6") {
+    Write-Host "== v6: v4 recipe with short-spell-weighted nets, submission, validator, rerun =="
+    & $py -m possession.bar_ath --method v6 --out "$r\v6.csv"
+    & $py evaluation\validate_submission.py "$r\v6.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v6 --out "$r\v6_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v6.csv").Hash -eq (Get-FileHash "$r\v6_run2.csv").Hash)
+    Remove-Item "$r\v6_run2.csv" -ErrorAction SilentlyContinue
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
+
 if ($args[0] -eq "tags") {
     Write-Host "== Smart Tagging team tag vs v4 labels (aggregates) =="
     & $py -m possession.tag_check "$r\v4.csv"
