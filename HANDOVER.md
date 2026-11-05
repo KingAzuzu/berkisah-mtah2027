@@ -147,3 +147,9 @@ Batas "dipakai" untuk tiap ide sudah ditetapkan di sini, sebelum melihat hasil.
 - v3 = 3-seed TCN ensemble fused 50/50 with v2.1 evidence, then Viterbi (params_v2_1 costs). LOMO spellF1 on TUNE under matched2: ensemble 0.641 [0.597, 0.681] vs v2.1 0.556; single seeds 0.621-0.627. `results/tcn.md`.
 - Wired as `possession.bar_ath --method v3` (torch imported lazily; default stays v2). Weights `possession/models/tcn_v3_s{0,1,2}.pt`, `params_v3.json`. torch 2.11.0 (CPU build) pinned in `requirements-submission.txt`.
 - Determinism verified incl. fresh clone + fresh venv (`results/reproducibility.md`). Not yet run on the competition tracking: human runs `.\run_all.ps1 v3`.
+
+## v4 (5 Nov 2026): submitted method
+- v4 = 5-seed TCN (seeds 10-14) with boundary head and EMA, domain randomisation, mirror aug + TTA, trained on IDSSE TUNE only (no SkillCorner, no Metrica), fused 50/50 with v2.1 evidence, Viterbi costs scaled by (1 - 0.6 x boundary prob). LOMO spellF1 0.6639 [0.614, 0.725], 5/5 wins vs v3 (0.6411). `results/tcn_v4.md`, `results/tcn_v4_confirm.md`, `params_v4.json`.
+- Selection: config found post-hoc in the ablations, then confirmed on fresh seeds 10-14 under a rule fixed beforehand (mean >= 0.661 and >= 4/5 wins). No locked check (J03WQQ/J03WR9 not evaluated).
+- Human run on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash compare True; graded H 52,755, A 37,373, D 68,729; 361 possessions, mean 10.0 s; ball seen 0.593. numpy "Mean of empty slice" warnings are harmless (frames without players/ball).
+- **`evaluation/results/v4.csv` is now the submission file; `v3.csv` is the backup.** Run: `.\run_all.ps1 v4` / `--method v4`.
