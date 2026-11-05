@@ -153,3 +153,9 @@ Batas "dipakai" untuk tiap ide sudah ditetapkan di sini, sebelum melihat hasil.
 - Selection: config found post-hoc in the ablations, then confirmed on fresh seeds 10-14 under a rule fixed beforehand (mean >= 0.661 and >= 4/5 wins). No locked check (J03WQQ/J03WR9 not evaluated).
 - Human run on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash compare True; graded H 52,755, A 37,373, D 68,729; 361 possessions, mean 10.0 s; ball seen 0.593. numpy "Mean of empty slice" warnings are harmless (frames without players/ball).
 - **`evaluation/results/v4.csv` is now the submission file; `v3.csv` is the backup.** Run: `.\run_all.ps1 v4` / `--method v4`.
+
+## v6 (6 Nov 2026): submitted method
+- v6 = v4 recipe with CE and boundary loss x3 within +-1 s of an H<->A change next to a spell < 3 s, seeds 20-24, v4 decoder. LOMO spellF1 0.6860 [0.650, 0.736], 5/5 wins vs v4 (0.6639). Seed control (v4 recipe, seeds 20-24) 0.6712: loss effect +0.0149 (5/5), seed effect about +0.007. `results/v6.md`, `params_v6.json`, weights `models/tcn_v6_s{20..24}.pt`.
+- Failed or skipped: E1 decoder retune 0.6790 (gate 0.6839), v5 Smart Tagging team prior 0.6586 (1/5 wins), ball-fill bound +0.028 in-sample (not pursued). No locked check.
+- Human run on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,338, A 37,111, D 68,408; 402 possessions, mean 9.0 s; ball seen 0.593.
+- **`evaluation/results/v6.csv` is now the submission file; `v4.csv` is the backup.** Run: `.\run_all.ps1 v6` / `--method v6`. Technical document updated to v6; TODOs left: team name, repo URL, final commit hash.
