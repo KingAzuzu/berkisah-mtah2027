@@ -63,6 +63,13 @@ if ($args[0] -eq "v4") {
     exit 0
 }
 
+if ($args[0] -eq "tags") {
+    Write-Host "== Smart Tagging team tag vs v4 labels (aggregates) =="
+    & $py -m possession.tag_check "$r\v4.csv"
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
+
 Write-Host "== 1. submission v2 + backup v1 =="
 & $py -m possession.bar_ath --method v2 --out "$r\v2.csv"
 if (-not (Test-Path "$r\v2.csv")) { Write-Host "STOP: v2 failed"; exit 1 }

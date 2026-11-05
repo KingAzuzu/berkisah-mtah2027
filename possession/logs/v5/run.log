@@ -1,0 +1,17 @@
+v4 reference (cB x5 hook): mean 0.6639 [0.6137,0.7249] (expect 0.6639)
+build up               target 0.943 struct 0.795 p_flip 0.000 q 0.968 -> sim 0.943
+progression            target 0.880 struct 0.782 p_flip 0.000 q 0.671 -> sim 0.880
+attacking transition   target 0.683 struct 0.808 p_flip 0.196 q 0.000 -> sim 0.682
+long ball              target 0.681 struct 0.807 p_flip 0.168 q 0.000 -> sim 0.680
+ball in final third    target 0.685 struct 0.755 p_flip 0.149 q 0.000 -> sim 0.685
+creating chances       target 0.664 struct 0.766 p_flip 0.195 q 0.000 -> sim 0.664
+ball in the box        target 0.630 struct 0.803 p_flip 0.288 q 0.000 -> sim 0.631
+players in the box     target 0.591 struct 0.732 p_flip 0.318 q 0.000 -> sim 0.590
+set pieces             target 0.606 struct 0.579 p_flip 0.000 q 0.323 -> sim 0.606
+goals                  target 0.786 struct 0.534 p_flip 0.000 q 1.000 -> sim 0.687
+k=0.0: 0.6639 [0.6137,0.7249] wins 0/5 seedmeans [0.6638920453110876, 0.6638920453110876, 0.6638920453110876]
+k=0.5: 0.6586 [0.6115,0.7085] wins 1/5 seedmeans [0.6498059891784387, 0.6588829794708598, 0.6672062570067647]
+k=1.0: 0.6174 [0.5708,0.6602] wins 0/5 seedmeans [0.6089635403275785, 0.6206734170545595, 0.6225723244858261]
+k=2.0: 0.5514 [0.5204,0.5776] wins 0/5 seedmeans [0.5356945037955131, 0.5534985522322151, 0.5649624845295198]
+robustness (agreement -0.1, k=0.5): 0.6368 [0.5915,0.6896] wins 0/5
+FAIL

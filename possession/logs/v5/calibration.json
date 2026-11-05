@@ -1,0 +1,72 @@
+{
+ "build up": {
+  "target": 0.943,
+  "struct_agree": 0.7951472339306456,
+  "p_flip": 0.0,
+  "q_trunc": 0.9678955078125,
+  "sim_agree": 0.9431861952083814
+ },
+ "progression": {
+  "target": 0.88,
+  "struct_agree": 0.7821570851911458,
+  "p_flip": 0.0,
+  "q_trunc": 0.6710205078125,
+  "sim_agree": 0.8801024496836533
+ },
+ "attacking transition": {
+  "target": 0.683,
+  "struct_agree": 0.8078375143056341,
+  "p_flip": 0.19580078125,
+  "q_trunc": 0.0,
+  "sim_agree": 0.6824127301507956
+ },
+ "long ball": {
+  "target": 0.681,
+  "struct_agree": 0.8066870968863882,
+  "p_flip": 0.16806640625,
+  "q_trunc": 0.0,
+  "sim_agree": 0.6798046118709109
+ },
+ "ball in final third": {
+  "target": 0.685,
+  "struct_agree": 0.7548806150345913,
+  "p_flip": 0.14892578125000003,
+  "q_trunc": 0.0,
+  "sim_agree": 0.685048775759468
+ },
+ "creating chances": {
+  "target": 0.664,
+  "struct_agree": 0.7660677099766517,
+  "p_flip": 0.19521484375,
+  "q_trunc": 0.0,
+  "sim_agree": 0.6637100082034455
+ },
+ "ball in the box": {
+  "target": 0.63,
+  "struct_agree": 0.8033978446399918,
+  "p_flip": 0.28779296875000004,
+  "q_trunc": 0.0,
+  "sim_agree": 0.6305109184572744
+ },
+ "players in the box": {
+  "target": 0.591,
+  "struct_agree": 0.7323812623811898,
+  "p_flip": 0.31767578125000007,
+  "q_trunc": 0.0,
+  "sim_agree": 0.5904885509952118
+ },
+ "set pieces": {
+  "target": 0.606,
+  "struct_agree": 0.5790452854160995,
+  "p_flip": 0.0,
+  "q_trunc": 0.3231201171875,
+  "sim_agree": 0.6061414458884883
+ },
+ "goals": {
+  "target": 0.786,
+  "struct_agree": 0.533639889454005,
+  "p_flip": 0.0,
+  "q_trunc": 0.9998779296875,
+  "sim_agree": 0.6865834752331816
+ }
+}
