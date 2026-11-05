@@ -11,7 +11,7 @@ from . import v4_status
 
 cfg, seed = sys.argv[1], int(sys.argv[2])
 STEPS = int(sys.argv[3]) if len(sys.argv) > 3 else 1500
-USE = {"full": (1, 1, 1), "nomet": (1, 0, 1), "nosc": (1, 1, 0), "nobd": (1, 1, 1)}[cfg]   # idsse, met, sc
+USE = {"full": (1, 1, 1), "nomet": (1, 0, 1), "nosc": (1, 1, 0), "nobd": (1, 1, 1), "cA": (1, 1, 0), "cB": (1, 0, 0)}[cfg]   # idsse, met, sc
 OUT = V.T.__file__.replace("tcn_lib.py", "logs/v4")
 import os
 os.makedirs(OUT, exist_ok=True)
@@ -46,4 +46,4 @@ for m in TUNE:
         res[f"lp{i}"], res[f"b{i}"] = lp, b
     np.savez(f, **res)
     print(cfg, seed, m, f"{time.time()-t0:.0f}s", flush=True)
-    v4_status.update()
+    (v4_status.update_c if cfg in ('cA', 'cB') else v4_status.update)()

@@ -1,0 +1,26 @@
+{
+ "R": 1.0,
+ "BV": 0.5,
+ "KW": 20,
+ "W_HOLD": 0.3,
+ "W_DIFF": 0.6,
+ "ALPHA": 0.5,
+ "TEMP": 1.0,
+ "SWITCH_TEAM": 20.0,
+ "SWITCH_DEAD": 5.0,
+ "DECODER": "viterbi",
+ "variant": "ball",
+ "selection": "TCN4 seed-ensemble fused 50/50 with v2.1 evidence, Viterbi with params_v2_1 costs scaled by (1 - 0.6 x boundary prob)",
+ "seeds": [
+  10,
+  11,
+  12,
+  13,
+  14
+ ],
+ "fusion": 0.5,
+ "steps": 1500,
+ "hook": 0.6,
+ "config": "cB",
+ "sources": "IDSSE TUNE (matched2 + 6 DR variants), mirror aug + TTA, no SkillCorner"
+}

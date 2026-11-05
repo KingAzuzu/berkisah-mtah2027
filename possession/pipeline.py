@@ -100,3 +100,11 @@ def v3_predictor():
     p = tcn_v3.load_params()
     models, nets = load_models(HERE / "models" / "dead_v2_1.joblib"), tcn_v3.load_nets(params=p)
     return p, lambda half: tcn_v3.predict(half, p, models, nets)
+
+
+def v4_predictor():
+    """-> (params, predict(half)) for v4 (TCN4 seed ensemble + v2.1 evidence, 50/50, boundary-hook Viterbi). torch imported only here."""
+    from . import tcn_v4
+    p = tcn_v4.load_params()
+    models, nets = load_models(HERE / "models" / "dead_v2_1.joblib"), tcn_v4.load_nets(params=p)
+    return p, lambda half: tcn_v4.predict(half, p, models, nets)
