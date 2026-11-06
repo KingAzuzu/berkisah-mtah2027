@@ -1,0 +1,27 @@
+{
+ "R": 1.0,
+ "BV": 0.5,
+ "KW": 20,
+ "W_HOLD": 0.3,
+ "W_DIFF": 0.6,
+ "ALPHA": 0.5,
+ "TEMP": 1.0,
+ "SWITCH_TEAM": 20.0,
+ "SWITCH_DEAD": 5.0,
+ "DECODER": "viterbi",
+ "variant": "ball",
+ "selection": "minimax regret over DFL and merged truth (0.0174); not a gated improvement",
+ "seeds": [
+  20,
+  21,
+  22,
+  23,
+  24
+ ],
+ "fusion": 0.5,
+ "steps": 1500,
+ "hook": 0.6,
+ "config": "hedge v6+v8",
+ "sources": "IDSSE TUNE (matched2 + 6 DR variants), mirror aug + TTA, no SkillCorner, no Metrica",
+ "nets": "v6 s20-24 + v8 s20-24 (equal weight)"
+}

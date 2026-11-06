@@ -83,6 +83,16 @@ if ($args[0] -eq "v8") {
     Write-Host "== done: paste everything above =="
     exit 0
 }
+if ($args[0] -eq "v10") {
+    Write-Host "== v10: hedge v6 + v8 nets (use if the organiser does not answer), submission, validator, rerun =="
+    & $py -m possession.bar_ath --method v10 --out "$r\v10.csv"
+    & $py evaluation\validate_submission.py "$r\v10.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v10 --out "$r\v10_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v10.csv").Hash -eq (Get-FileHash "$r\v10_run2.csv").Hash)
+    Remove-Item "$r\v10_run2.csv" -ErrorAction SilentlyContinue
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
 
 if ($args[0] -eq "tags") {
     Write-Host "== Smart Tagging team tag vs v4 labels (aggregates) =="

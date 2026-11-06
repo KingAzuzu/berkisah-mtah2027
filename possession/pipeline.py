@@ -110,6 +110,14 @@ def v4_predictor():
     return p, lambda half: tcn_v4.predict(half, p, models, nets)
 
 
+def v10_predictor():
+    """-> (params, predict(half)) for v10 (hedge: v6 + v8 nets in one ensemble). torch imported only here."""
+    from . import tcn_v10
+    p = tcn_v10.load_params()
+    models, nets = load_models(HERE / "models" / "dead_v2_1.joblib"), tcn_v10.load_nets(params=p)
+    return p, lambda half: tcn_v10.predict(half, p, models, nets)
+
+
 def v8_predictor():
     """-> (params, predict(half)) for v8 (v6 recipe, nets trained on touch-merged labels). torch imported only here."""
     from . import tcn_v8

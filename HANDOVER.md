@@ -175,3 +175,10 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
   `possession/results/v8_convention.md`. Issue to organiser: to be posted by Dihan.
 - Human run of v8 on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,449, A 37,040,
   D 68,368; 326 possessions, mean 11.1 s (v6: 402, 9.0 s). v8 CSV ready next to v6; v6 stays the submission until the organiser answers.
+
+## v9-v10 (6 Nov 2026): model at its limit; hedge option wired
+- Failed gates (IDSSE, vs merged truth, v8 0.7563): v9 3000 steps 0.7493, longer context 0.7347; boundary refiner 0.7553; MBR 0.7545;
+  10-seed ensemble 0.7495. `results/v9.md`, `results/v10_refine.md`, `results/v10_hedge_mbr_seeds.md`.
+- v10 = hedge: v6 + v8 nets in one ensemble. vs DFL 0.6686, vs merged 0.7449, worst-case regret 0.017 (v6 0.047, v8 0.034).
+  Wired: `.\run_all.ps1 v10`. Deterministic (J03WMX h0 SHA d93596b0... at 1 and 4 threads).
+- Submit rule: organiser says touches ignored -> v8; touches count -> v6; no answer -> v10.
