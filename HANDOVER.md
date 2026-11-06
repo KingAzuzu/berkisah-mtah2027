@@ -159,3 +159,11 @@ Batas "dipakai" untuk tiap ide sudah ditetapkan di sini, sebelum melihat hasil.
 - Failed or skipped: E1 decoder retune 0.6790 (gate 0.6839), v5 Smart Tagging team prior 0.6586 (1/5 wins), ball-fill bound +0.028 in-sample (not pursued). No locked check.
 - Human run on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,338, A 37,111, D 68,408; 402 possessions, mean 9.0 s; ball seen 0.593.
 - **`evaluation/results/v6.csv` is now the submission file; `v4.csv` is the backup.** Run: `.\run_all.ps1 v6` / `--method v6`. Technical document updated to v6; TODOs left: team name, repo URL, final commit hash.
+
+## v7 study (6 Nov 2026): nothing adopted, v6 stays the submission
+Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, organiser scorer; gate fixed before each run):
+- **Ceiling of the v6 recipe on clean (undegraded) IDSSE: 0.724** (TCN-only, 2 seeds; same decoding on degraded 0.677). Degradation costs
+  only ~0.05; even perfect tracking gives ~0.72 with this recipe, and spells are still under-predicted. 0.85 is out of reach. `results/v7_ceiling.md`.
+- Decoder retune on v6 nets, wider 600-point grid, nested: 0.6887 vs 0.6860, 3/5 wins: FAIL. Surface is flat. `results/v7_decoder.md`.
+- Short-spell loss x5 0.6855 (3/5), x8 0.6813 (2/5): FAIL. More predicted spells, but not the right ones. `results/v7_short.md`.
+- Commits a005fe6, 18c900b. **The v6 CSV remains the submission file; the v4 CSV the backup.**
