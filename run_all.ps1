@@ -73,6 +73,16 @@ if ($args[0] -eq "v6") {
     Write-Host "== done: paste everything above =="
     exit 0
 }
+if ($args[0] -eq "v8") {
+    Write-Host "== v8: v6 recipe on touch-merged labels (only if organiser confirms touches do not flip owner), submission, validator, rerun =="
+    & $py -m possession.bar_ath --method v8 --out "$r\v8.csv"
+    & $py evaluation\validate_submission.py "$r\v8.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v8 --out "$r\v8_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v8.csv").Hash -eq (Get-FileHash "$r\v8_run2.csv").Hash)
+    Remove-Item "$r\v8_run2.csv" -ErrorAction SilentlyContinue
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
 
 if ($args[0] -eq "tags") {
     Write-Host "== Smart Tagging team tag vs v4 labels (aggregates) =="

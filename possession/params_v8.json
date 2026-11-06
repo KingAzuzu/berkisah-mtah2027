@@ -1,0 +1,28 @@
+{
+ "R": 1.0,
+ "BV": 0.5,
+ "KW": 20,
+ "W_HOLD": 0.3,
+ "W_DIFF": 0.6,
+ "ALPHA": 0.5,
+ "TEMP": 1.0,
+ "SWITCH_TEAM": 20.0,
+ "SWITCH_DEAD": 5.0,
+ "DECODER": "viterbi",
+ "variant": "ball",
+ "selection": "v6 recipe on touch-merged labels; LOMO vs merged truth 0.7563 (5/5 vs v6+merge 0.7310); vs DFL truth 0.6517",
+ "seeds": [
+  20,
+  21,
+  22,
+  23,
+  24
+ ],
+ "fusion": 0.5,
+ "steps": 1500,
+ "hook": 0.6,
+ "config": "cB+short3x+mergedK2",
+ "sources": "IDSSE TUNE (matched2 + 6 DR variants), mirror aug + TTA, no SkillCorner, no Metrica",
+ "short_w": 3.0,
+ "labels": "touch-merged K 2 s"
+}

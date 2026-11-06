@@ -32,3 +32,8 @@ The convention is a bet worth about +-0.02-0.03 in spellF1, same order as every 
 Gate (vs merged, >= 0.7410 and >= 4/5 wins vs v6+merge): **PASS**, +0.025, 5/5. v8+merge = v8 (the net no longer emits short X-Y-X spells).
 Decision rule: if the organiser confirms touches do not flip the owner, use v8 (+0.047 over v6 under that truth); if truth is DFL-like,
 keep v6 (v8 loses 0.034). Not frozen: final all-TUNE nets and the `--method v8` wiring are not done yet.
+
+## Frozen (6 Nov 2026)
+Final nets on all TUNE data, seeds 20-24: `possession/models/tcn_v8_s{20..24}.pt`, `params_v8.json`, `tcn_v8.py`, `pipeline.v8_predictor()`,
+`bar_ath.py --method v8`, `run_all.ps1 v8`. Determinism (J03WMX half 0, CPU): SHA256 codes 1815a952e75e55e29be6c831c44d2bd604adcbfaa0d8af162d88761fb963a904
+identical at 1 and 4 threads. Not run on the competition tracking. v6 stays the submission until the organiser answers.

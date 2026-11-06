@@ -167,3 +167,9 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - Decoder retune on v6 nets, wider 600-point grid, nested: 0.6887 vs 0.6860, 3/5 wins: FAIL. Surface is flat. `results/v7_decoder.md`.
 - Short-spell loss x5 0.6855 (3/5), x8 0.6813 (2/5): FAIL. More predicted spells, but not the right ones. `results/v7_short.md`.
 - Commits a005fe6, 18c900b. **The v6 CSV remains the submission file; the v4 CSV the backup.**
+
+## v8 (6 Nov 2026): convention candidate, NOT the submission yet
+- DFL truth flips owner on short touches (19% of IDSSE spells are < 2 s X-Y-X); CHALLENGE.md says uncontrolled touches are not a change.
+- v8 = v6 recipe trained on touch-merged labels (K 2 s). LOMO vs merged truth 0.7563 (5/5) vs v6 0.7099; vs DFL truth 0.6517 vs v6 0.6860.
+- Frozen and wired: `.\run_all.ps1 v8` / `--method v8`. **Use v8 only if the organiser confirms touches do not flip the owner;** else keep v6.
+  `possession/results/v8_convention.md`. Issue to organiser: to be posted by Dihan.

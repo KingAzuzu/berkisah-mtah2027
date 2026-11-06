@@ -110,6 +110,14 @@ def v4_predictor():
     return p, lambda half: tcn_v4.predict(half, p, models, nets)
 
 
+def v8_predictor():
+    """-> (params, predict(half)) for v8 (v6 recipe, nets trained on touch-merged labels). torch imported only here."""
+    from . import tcn_v8
+    p = tcn_v8.load_params()
+    models, nets = load_models(HERE / "models" / "dead_v2_1.joblib"), tcn_v8.load_nets(params=p)
+    return p, lambda half: tcn_v8.predict(half, p, models, nets)
+
+
 def v6_predictor():
     """-> (params, predict(half)) for v6 (v4 recipe, nets trained with short-spell loss weight x3, v4 decoder). torch imported only here."""
     from . import tcn_v6
