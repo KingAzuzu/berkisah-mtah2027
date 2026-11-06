@@ -173,3 +173,5 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - v8 = v6 recipe trained on touch-merged labels (K 2 s). LOMO vs merged truth 0.7563 (5/5) vs v6 0.7099; vs DFL truth 0.6517 vs v6 0.6860.
 - Frozen and wired: `.\run_all.ps1 v8` / `--method v8`. **Use v8 only if the organiser confirms touches do not flip the owner;** else keep v6.
   `possession/results/v8_convention.md`. Issue to organiser: to be posted by Dihan.
+- Human run of v8 on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,449, A 37,040,
+  D 68,368; 326 possessions, mean 11.1 s (v6: 402, 9.0 s). v8 CSV ready next to v6; v6 stays the submission until the organiser answers.
