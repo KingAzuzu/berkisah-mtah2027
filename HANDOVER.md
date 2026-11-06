@@ -182,3 +182,5 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - v10 = hedge: v6 + v8 nets in one ensemble. vs DFL 0.6686, vs merged 0.7449, worst-case regret 0.017 (v6 0.047, v8 0.034).
   Wired: `.\run_all.ps1 v10`. Deterministic (J03WMX h0 SHA d93596b0... at 1 and 4 threads).
 - Submit rule: organiser says touches ignored -> v8; touches count -> v6; no answer -> v10.
+- Human run of v10 on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,223, A 37,302,
+  D 68,332; 347 possessions, mean 10.4 s (v6 402 / 9.0 s, v8 326 / 11.1 s). All three CSVs ready.
