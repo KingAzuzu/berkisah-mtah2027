@@ -21,3 +21,14 @@ merge K: an alive spell < K s between two spells of the other team is relabelled
 K = 2: if the competition truth ignores short touches, merging gains +0.021 (5/5); if it is DFL-like, merging loses -0.031 (5/5).
 With merge, predicted spell counts match merged truth almost exactly (349/343, 377/360, 315/310, 338/338, 308/309).
 The convention is a bet worth about +-0.02-0.03 in spellF1, same order as every model gain since v4. It cannot be settled on IDSSE.
+
+## v8 candidate: v6 recipe retrained on merged labels (K 2), seeds 20-24, LOMO (`v8_train.py`, `v8_eval.py`, `logs/v8/eval.json`)
+| | vs merged truth | per match (MX, N1, OH, OY, PY) | vs DFL truth |
+|---|---|---|---|
+| v6 | 0.7099 | .694 .693 .736 .687 .739 | **0.6860** |
+| v6 + merge | 0.7310 | .725 .708 .755 .712 .755 | 0.6548 |
+| **v8** | **0.7563** | .763 .719 .786 .734 .779 | 0.6517 |
+
+Gate (vs merged, >= 0.7410 and >= 4/5 wins vs v6+merge): **PASS**, +0.025, 5/5. v8+merge = v8 (the net no longer emits short X-Y-X spells).
+Decision rule: if the organiser confirms touches do not flip the owner, use v8 (+0.047 over v6 under that truth); if truth is DFL-like,
+keep v6 (v8 loses 0.034). Not frozen: final all-TUNE nets and the `--method v8` wiring are not done yet.
