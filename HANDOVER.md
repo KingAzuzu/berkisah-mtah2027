@@ -184,3 +184,11 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - Submit rule: organiser says touches ignored -> v8; touches count -> v6; no answer -> v10.
 - Human run of v10 on the competition tracking (aggregates): 199,319 rows, validator passed, rerun hash True; graded H 53,223, A 37,302,
   D 68,332; 347 possessions, mean 10.4 s (v6 402 / 9.0 s, v8 326 / 11.1 s). All three CSVs ready.
+
+## Real-data sanity checks (11 Nov 2026, label-free, aggregates run by the human on the v10 CSV)
+- `tag_truth_check`: clear-control proxy (ball seen, own player <= 1.5 m, no opponent within 3 m, >= 0.6 s; = truth 0.967 on IDSSE).
+  Our labels = proxy 0.970 (IDSSE v8 0.990): the TCN path behaves on real data. Smart Tagging team = proxy only 0.60-0.76 on
+  final-third / box codes while our labels = proxy 0.95-0.98 in every code: tags are coarse, v5 conclusion confirmed.
+- `dead_check`: 13.0% of clear-control frames labelled D (IDSSE v8 5.0%, truth 4.7%). 71% of them are in D runs > 10 s and they are
+  2.7x enriched inside Smart Tagging set-piece intervals; short same-team D runs (< 3 s) hold only 4.8% (9 runs of 1-3 s in the match).
+  Reading: stoppages where the taker stands on a visible ball, not split possessions. No fix warranted.
