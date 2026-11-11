@@ -192,3 +192,10 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - `dead_check`: 13.0% of clear-control frames labelled D (IDSSE v8 5.0%, truth 4.7%). 71% of them are in D runs > 10 s and they are
   2.7x enriched inside Smart Tagging set-piece intervals; short same-team D runs (< 3 s) hold only 4.8% (9 runs of 1-3 s in the match).
   Reading: stoppages where the taker stands on a visible ball, not split possessions. No fix warranted.
+
+## Convention check on the public window (11 Nov 2026, human run, aggregates only; rule fixed before the count)
+- `gt_convention_check`: 17 possessions, mean 14.2 s, shortest 0.76 s; possessions < 2 s: 2; short X-Y-X touches: 2
+  (IDSSE DFL 5-min windows: < 2 s 5-20, X-Y-X 0-18, median 6). Rule -> **v10**.
+- Reading: the truth does flip the owner on some brief touches (so v8's blanket merge is too strong), but far less often than DFL
+  (so v6 over-splits): an in-between convention, which is what the v10 hedge covers. No parameter is chosen from this count.
+- **Final choice: v10.** Fallback: v6. Used only to understand the definition (organiser email; CHALLENGE.md), recorded here for the technical document.
