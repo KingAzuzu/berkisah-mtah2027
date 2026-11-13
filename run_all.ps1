@@ -83,6 +83,17 @@ if ($args[0] -eq "v8") {
     Write-Host "== done: paste everything above =="
     exit 0
 }
+if ($args[0] -eq "v10c1") {
+    Write-Host "== v10c1: v10 retrained on 7 IDSSE matches, submission, validator, rerun, agreement with v10.csv =="
+    & $py -m possession.bar_ath --method v10c1 --out "$r10c1.csv"
+    & $py evaluationalidate_submission.py "$r10c1.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v10c1 --out "$r10c1_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r10c1.csv").Hash -eq (Get-FileHash "$r10c1_run2.csv").Hash)
+    Remove-Item "$r10c1_run2.csv" -ErrorAction SilentlyContinue
+    & $py -m possession.compare_csv "$r10.csv" "$r10c1.csv"
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
 if ($args[0] -eq "v10") {
     Write-Host "== v10: hedge v6 + v8 nets (use if the organiser does not answer), submission, validator, rerun =="
     & $py -m possession.bar_ath --method v10 --out "$r\v10.csv"

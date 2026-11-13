@@ -66,8 +66,8 @@ def main():
     mtah_guard.refuse_under_claude()
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("--method", choices=("v1", "v2", "v2_1", "v3", "v4", "v6", "v8", "v10"), default="v2",
-                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json); v2_1 = same with ball-feature model (params_v2_1.json); v3 = TCN + v2.1 fusion (params_v3.json, needs torch); v4 = TCN4 boundary-hook + v2.1 fusion (params_v4.json, needs torch); v6 = v4 with short-spell-weighted nets (params_v6.json, needs torch); v8 = v6 on touch-merged labels (params_v8.json, needs torch); v10 = hedge, v6 + v8 nets (params_v10.json, needs torch)")
+    ap.add_argument("--method", choices=("v1", "v2", "v2_1", "v3", "v4", "v6", "v8", "v10", "v10c1"), default="v2",
+                    help="v1 = safety net (params.json); v2 = rules + dead-ball model (params_v2.json); v2_1 = same with ball-feature model (params_v2_1.json); v3 = TCN + v2.1 fusion (params_v3.json, needs torch); v4 = TCN4 boundary-hook + v2.1 fusion (params_v4.json, needs torch); v6 = v4 with short-spell-weighted nets (params_v6.json, needs torch); v8 = v6 on touch-merged labels (params_v8.json, needs torch); v10 = hedge, v6 + v8 nets (params_v10.json, needs torch); v10c1 = v10 retrained on 7 IDSSE matches (params_v10c1.json)")
     args = ap.parse_args()
 
     ball, xy, team = load_atd()
@@ -93,6 +93,9 @@ def main():
     elif args.method == "v10":
         from . import pipeline
         p, predict = pipeline.v10_predictor()
+    elif args.method == "v10c1":
+        from . import pipeline
+        p, predict = pipeline.v10c1_predictor()
     else:
         p = params()
         predict = lambda half: safety.predict(half, p)  # noqa: E731

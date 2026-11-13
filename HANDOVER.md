@@ -212,3 +212,12 @@ matched2 seed 0 on J03WQQ / J03WR9. v6 and v8 scored for the record only; the ch
 
 Same ordering as TUNE LOMO (v10 between v6 and v8 under both conventions); worst-case regret of v10 0.019 (TUNE 0.017).
 No sign of overfitting to TUNE: vs DFL the locked scores are above TUNE (v10 0.696 vs 0.669); vs merged slightly below (0.739 vs 0.745), within match noise. Submission stays v10.
+
+### C1: v10 retrained on 7 IDSSE matches (v10c1, 13 Nov 2026) -> FAIL, not used
+
+`possession/tcn_v10c1.py` (same recipe, seeds 20-24, v6 + v8 labels, trained on TUNE + LOCKED after the locked check), sanity
+`possession/v10c1_sanity.py` -> `logs/v10c1_sanity.json`. Criteria fixed before running: in-sample spellF1 >= v10 - 0.02 on every
+match AND frame agreement with v10 >= 0.95. Agreement 0.985-0.991 everywhere, but spellF1 on TUNE drops 0.010-0.037 (MX .7207 -> .6833,
+OY .7309 -> .6951); locked rises +0.04 (now in-sample). Both are in-sample numbers, so they mostly measure memorisation (1500 steps
+spread over 14 halves instead of 10) and say nothing about held-out quality; but the rule fixed beforehand says FAIL, so **v10 stays
+the submission**. v10c1 is wired (`--method v10c1`, `run_all.ps1 v10c1`) for the record only; do not submit it.
