@@ -228,3 +228,9 @@ team-only evidence w * log(2 sigmoid(+-z)) to the v10 LOMO evidence. Screen fixe
 >= v10 + 0.01 on both truths and >= 4/5 wins. w=0 reproduces v10 exactly (DFL 0.6686, merged 0.7449).
 Best w=0.25: DFL 0.6729 (+0.004), merged 0.7491 (+0.004); w=0.5/1.0 lower. FAIL even under the optimistic setup, so no matched2
 retrain. The per-player model adds no team information beyond the TCN + v2.1 fusion. v10 stays the submission.
+
+### v16: control-aware touch merge (13 Nov 2026, CPU, no training) -> FAIL
+`possession/v16_ctrl_merge.py`, `logs/v16/ctrl_merge.json`. Merge predicted X-Y-X (Y < K s) unless clear control by Y inside Y
+(CHALLENGE.md: a touch without control is not a change). Gate fixed beforehand on avg(DFL, merged): >= v10 + 0.01 and >= 4/5 wins.
+v10 avg 0.7067; v10+ctrl2 0.7053 (2/5), v10+ctrl3 0.6941, v6+ctrl2 0.6927, v6+ctrl3 0.6741. v10 changes only 2-4 spells per match:
+it already predicts few short flips, and merging more costs vs both truths. Post-processing on the convention is exhausted.
