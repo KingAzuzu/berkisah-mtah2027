@@ -221,3 +221,10 @@ match AND frame agreement with v10 >= 0.95. Agreement 0.985-0.991 everywhere, bu
 OY .7309 -> .6951); locked rises +0.04 (now in-sample). Both are in-sample numbers, so they mostly measure memorisation (1500 steps
 spread over 14 halves instead of 10) and say nothing about held-out quality; but the rule fixed beforehand says FAIL, so **v10 stays
 the submission**. v10c1 is wired (`--method v10c1`, `run_all.ps1 v10c1`) for the record only; do not submit it.
+
+### v15 probe: Ball Radar team evidence added to v10 (13 Nov 2026) -> screen FAIL, path closed
+`possession/v15_br_probe.py`, `logs/v15/probe.json`. Ball Radar held-out fold probs (old degrade profile, so optimistic) added as
+team-only evidence w * log(2 sigmoid(+-z)) to the v10 LOMO evidence. Screen fixed beforehand: some w in (0.25, 0.5, 1.0) with mean
+>= v10 + 0.01 on both truths and >= 4/5 wins. w=0 reproduces v10 exactly (DFL 0.6686, merged 0.7449).
+Best w=0.25: DFL 0.6729 (+0.004), merged 0.7491 (+0.004); w=0.5/1.0 lower. FAIL even under the optimistic setup, so no matched2
+retrain. The per-player model adds no team information beyond the TCN + v2.1 fusion. v10 stays the submission.
