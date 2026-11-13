@@ -1,4 +1,6 @@
-# MTAH 2027 team repo: instructions for Claude Code
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 We are a team in More Than A Hack 2027 (Metrica Sports, Barça Innovation Hub, MWCapital).
 Phase 1: label every frame of the BAR-ATH tactical video `H` / `A` / `D` / `X`. Ranked on
@@ -52,3 +54,34 @@ You are a hosted LLM.
 - Report spellF1 differences with match-level spread; on one match, below ~0.04 is noise.
 - One purpose per change. Back every claim with a number from a command. Say what is unverified.
 - Ask the human before adding a dependency or anything that sends data off the machine.
+
+## Commands (run from the repo root; the venv is `idsse-tests/.venv`)
+
+- Python: `idsse-tests/.venv/Scripts/python -m possession.<module>`. Everything is a module of `possession/`.
+- Tests: `idsse-tests/.venv/Scripts/python tests/test_bar_ath.py` (one file per test, run directly; no pytest config).
+- Score on IDSSE TUNE: `python -m possession.run_idsse --method ...`. CPU determinism: `python -m possession.repro_check --method v10`.
+- Competition run (human only, own terminal): `.\run_all.ps1 v10` writes the submission CSV, runs the validator and a
+  byte-identical rerun. It calls `python -m possession.bar_ath --method v10`, the inference entry point.
+- GPU training scripts run in the background and log to `possession/logs/`. Run GPU jobs one at a time (a job was killed for RAM).
+- The `.claude/hooks/guard_data.py` hook also blocks Bash commands whose text names the competition files or the results
+  folder; put such text in files with Edit/Write and keep it out of commit messages.
+
+## Architecture
+
+- `possession/data.py`: the one half-match representation (`ball`, `xy`, `team`, `truth`), the IDSSE loader, `TUNE`/`LOCKED`.
+  IDSSE is degraded to look like competition tracking (`degrade_matched2.py`, profile "matched2"; `v4_prep.py` adds 6
+  domain-randomised variants); `m2_lib.data2()` and the feature pickles in the IDSSE `data/cache` hold them.
+- Methods are versioned and frozen, never edited in place: `tcn_vN.py` + `params_vN.json` + `models/tcn_vN_s{seed}.pt`,
+  wired through `pipeline.vN_predictor()` into the inference CLI, `repro_check.py` and `run_all.ps1`. Experiments
+  (`vN_*.py`) write `possession/results/*.md` and logs, never frozen files.
+- Submission method v10 (`tcn_v10.py`): dead-ball model `models/dead_v2_1.joblib` (rules + classifier evidence `eR`) fused
+  0.5/0.5 with the mean log-probs of 10 TCN4 nets (5 v6 nets on DFL labels + 5 v8 nets on touch-merged labels,
+  `v8_convention.merge`), decoded by `v4_lib.viterbi_scaled`. CPU, float32, 1 thread, deterministic. Fallback v6.
+  v10c1 (same, retrained on 7 matches) failed its sanity rule and is not submitted.
+- Evaluation protocol: leave-one-match-out on the 5 TUNE matches, gate fixed before each run (mean >= reference + 0.01 and
+  >= 4/5 match wins), organiser scorer via `possession/score.py`. Locked matches were evaluated once for v10
+  (`logs/locked_v10.json`); `locked_eval_*.py` refuse to rerun.
+- Scripts that read competition data (inference CLI, `tag_truth_check`, `dead_check`, `gt_convention_check`, `compare_csv`)
+  call `mtah_guard.refuse_under_claude()`; the human sets `MTAH_DATA_DIR` and pastes aggregates back.
+- `HANDOVER.md` is the log of every experiment, gate and decision; append to it after each result.
+- The user writes in Indonesian and wants short, dense answers and frugal token use.
