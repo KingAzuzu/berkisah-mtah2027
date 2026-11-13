@@ -199,3 +199,16 @@ Question: can we reach spellF1 0.85? Answer from three tests (IDSSE TUNE, LOMO, 
 - Reading: the truth does flip the owner on some brief touches (so v8's blanket merge is too strong), but far less often than DFL
   (so v6 over-splits): an in-between convention, which is what the v10 hedge covers. No parameter is chosen from this count.
 - **Final choice: v10.** Fallback: v6. Used only to understand the definition (organiser email; CHALLENGE.md), recorded here for the technical document.
+
+### Locked check, v10 frozen (13 Nov 2026, run once: `possession/locked_eval_v10.py`, `possession/logs/locked_v10.json`)
+
+matched2 seed 0 on J03WQQ / J03WR9. v6 and v8 scored for the record only; the choice is not revisited from these numbers.
+
+| | spellF1 vs DFL truth (QQ, R9, mean) | vs merged truth (QQ, R9, mean) | macroF1 DFL |
+|---|---|---|---|
+| v6 | .7258 .7025 **0.7142** | .7329 .7115 **0.7222** | 0.9401 |
+| v8 | .7051 .6626 **0.6838** | .7446 .7492 **0.7469** | 0.9373 |
+| v10 | .7156 .6757 **0.6956** | .7397 .7385 **0.7391** | 0.9384 |
+
+Same ordering as TUNE LOMO (v10 between v6 and v8 under both conventions); worst-case regret of v10 0.019 (TUNE 0.017).
+No overfitting to TUNE: locked scores are at or above the TUNE means. Submission stays v10.
