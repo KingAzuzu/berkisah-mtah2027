@@ -211,4 +211,4 @@ matched2 seed 0 on J03WQQ / J03WR9. v6 and v8 scored for the record only; the ch
 | v10 | .7156 .6757 **0.6956** | .7397 .7385 **0.7391** | 0.9384 |
 
 Same ordering as TUNE LOMO (v10 between v6 and v8 under both conventions); worst-case regret of v10 0.019 (TUNE 0.017).
-No overfitting to TUNE: locked scores are at or above the TUNE means. Submission stays v10.
+No sign of overfitting to TUNE: vs DFL the locked scores are above TUNE (v10 0.696 vs 0.669); vs merged slightly below (0.739 vs 0.745), within match noise. Submission stays v10.
