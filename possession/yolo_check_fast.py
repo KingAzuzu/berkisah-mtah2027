@@ -35,7 +35,7 @@ def main(mp4, model="yolo11x.pt"):
     W, Hh, total = int(cap.get(3)), int(cap.get(4)), int(cap.get(7))
     cap.release()
     cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-v", "error", "-threads", "0", "-i", mp4, "-vf", f"select=not(mod(n\\,{STEP}))",
-           "-vsync", "0", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"]
+           "-fps_mode", "passthrough", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, bufsize=W * Hh * 3 * 4)
     net = YOLO(model)
     near = np.full(len(idx), np.inf)
@@ -81,6 +81,8 @@ def main(mp4, model="yolo11x.pt"):
             print(f"{n}/{total} frames {100 * n / total:5.1f}%  elapsed {el / 60:4.1f} min  ETA {el / max(n, 1) * (total - n) / 60:4.1f} min", flush=True)
     flush()
     proc.wait()
+    if j == 0:
+        raise SystemExit("ffmpeg returned no frames (see its error above); nothing scored")
     seen = ~np.isnan(ball[:, 0])
     e = near[seen]
     print(f"sampled {len(idx)}; ATD-seen {int(seen.sum())}; model {model} crop {C}; {(time.time() - t0) / 60:.1f} min")
