@@ -70,10 +70,8 @@ def main(mp4, model="yolo11x.pt", imgsz=1920):
         f += 1
         if f % 5000 == 0:
             el = time.time() - t0
-            print(f"{f}/{total} frames {100 * f / total:5.1f}%  elapsed {el / 60:5.1f} min  ETA {el / f * (total - f) / 60:5.1f} min",
-                  end="", flush=True)
+            print(f"{f}/{total} frames {100 * f / total:5.1f}%  elapsed {el / 60:5.1f} min  ETA {el / f * (total - f) / 60:5.1f} min", flush=True)
     flush()
-    print()
     seen = ~np.isnan(ball[:, 0])
     e = near[seen]
     print(f"video frames read {f}; sampled {len(idx)}; ATD-seen {int(seen.sum())}; model {model} imgsz {imgsz}")
