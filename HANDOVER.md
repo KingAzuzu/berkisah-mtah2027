@@ -256,3 +256,8 @@ has median 17.8 dB, p99 29.4 dB: the background is itself tonal, so the fixed ab
 Enrichment of whistle onsets near v10 D transitions vs shifted control: 1.13 (TH 15, decision), 0.97 (TH 18): FAIL. The test is
 miscalibrated rather than a clean negative, but the upside is small (D boundaries already ~0.9 within 1 s on IDSSE, no audio to
 validate on IDSSE). Not retried. v10 stays.
+
+### v18: transductive self-training on the unlabeled held-out match (16 Nov 2026) -> FAIL
+`possession/v18_selftrain.py`, `logs/v18/eval.json`. v8 recipe, seeds 20-24, + held-out match with v8 LOMO pseudo-labels (canonical
+features only; RULES.md allows algorithmic pseudo-labels). Gate fixed beforehand: merged mean >= 0.7663 and >= 4/5 wins vs v8.
+v18 merged 0.7554 vs v8 0.7563 (1/5), DFL 0.6508 vs 0.6517. Pseudo-labels reproduce what the model already predicts: no gain.
