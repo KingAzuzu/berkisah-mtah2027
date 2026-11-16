@@ -273,3 +273,11 @@ v18 merged 0.7554 vs v8 0.7563 (1/5), DFL 0.6508 vs 0.6517. Pseudo-labels reprod
   (swaps are not ID-switch jumps, so tracklet stitching cannot repair them); over-count team nearest to the ball 0.587 vs ~0.52
   expected from the home/away mix (balanced frames: home nearest 0.562): mild enrichment, not the near-ball worst case.
   Expected cost about the random case (~0.01): below the 0.02 bar. Team-label repair / jersey classifier closed for Phase 1.
+
+### YOLO ball detector on the real tactical video (16 Nov 2026, human run, aggregates only) -> FAIL, closed for Phase 1
+`possession/yolo_prep.py` + `possession/yolo_check_fast.py` (`.venv-vision`, ultralytics, yolo11x COCO "sports ball", 640 crop
+centred on the projected ATD ball = optimistic, every 50th frame; 3.5 min on the RTX 4060). Reference = seen ATD ball.
+3,987 frames, 2,269 ATD-seen: detection within 0.5 m 0.217, 1 m 0.384, 2 m 0.512; any detection 0.824; median error of matches
+<= 2 m 0.58 m; 0.59 false detections (> 5 m) per frame; ATD-missing frames with any detection 0.361. Gate (>= 0.80 within 0.5 m):
+FAIL by far. With v17 (fill errors >= 1 m cost 0.02-0.04), an off-the-shelf detector would lower the score. Phase 2 only, with a
+detector fine-tuned on public football video (e.g. SoccerNet) and the same gate.
