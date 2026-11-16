@@ -281,3 +281,15 @@ centred on the projected ATD ball = optimistic, every 50th frame; 3.5 min on the
 <= 2 m 0.58 m; 0.59 false detections (> 5 m) per frame; ATD-missing frames with any detection 0.361. Gate (>= 0.80 within 0.5 m):
 FAIL by far. With v17 (fill errors >= 1 m cost 0.02-0.04), an off-the-shelf detector would lower the score. Phase 2 only, with a
 detector fine-tuned on public football video (e.g. SoccerNet) and the same gate.
+
+### Public window correctness check + v20 dead-ball mix (16 Nov 2026) -> FAIL, v10 stays
+- Public window (human, aggregates): v10 spellF1 0.570, macroF1 0.732 (v8 0.618/0.742, v6 0.574/0.730, v2 0.400/0.812). Per class
+  v10: H F1 0.85, A F1 0.85, D F1 0.50 (precision 0.98, recall 0.33); team acc (both alive) 0.92. D recall: v2 0.884, v2.1 0.252,
+  v4/v6/v8/v10 0.33. `public_dead_diag`: 4 truth D runs; the two missed by v10 (20.4 s, 14.5 s) have the ATD ball seen 100% and slow
+  (2.8, 1.7 m/s); v2 (players-only dead model) labels them D 0.94 / 1.00. The with-ball dead model (v2.1) is the cause.
+- `possession/v20_dead_mix.py` (IDSSE LOMO, CPU): players-only dead probability where the ball is seen ("mix") or everywhere
+  ("players"); no-harm gate fixed beforehand: avg(DFL, merged) >= v10 - 0.005. v10 0.7067; mix 0.7009 (DFL 0.6678, merged 0.7339);
+  players 0.6979: both FAIL. IDSSE D recall with the ball seen is already 0.998: the simulator lacks this real-data case, so the fix
+  cannot be validated, and it costs 0.006-0.009 where it can be measured.
+- Label-free whole-match check: v10 D share of graded frames 68,332 / 158,857 = 0.43, in line with typical effective playing time
+  (~55% ball in play), so the window's D recall is not evidence of a match-wide D deficit. Not changed from 5 minutes of truth.
