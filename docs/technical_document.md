@@ -1,6 +1,6 @@
 # Technical document: frame-level ball possession, BAR-ATH tactical video
 
-Team: **TODO team name** (CSV and document must be named `<team_name>.csv` / `<team_name>.pdf` or `.md`)
+Team: **Berkisah** (submission `Berkisah.csv`, document `Berkisah.md`)
 Repository: **TODO public repo URL**
 Method version: **v10** (frozen; v6 is the fallback), commit **TODO final commit hash**
 
@@ -126,8 +126,8 @@ Python 3.12, CPU only. The match data is not in the repository; weights and para
     py -3.12 -m venv venv
     venv\Scripts\python -m pip install -r requirements-submission.txt
     $env:MTAH_DATA_DIR = "<folder that contains the tactical/ data folder>"
-    venv\Scripts\python -m possession.bar_ath --method v10 --out <team_name>.csv
-    venv\Scripts\python evaluation\validate_submission.py <team_name>.csv
+    venv\Scripts\python -m possession.bar_ath --method v10 --out Berkisah.csv
+    venv\Scripts\python evaluation\validate_submission.py Berkisah.csv
 
 Or `.\run_all.ps1 v10`, which also reruns and compares the hash. Expected: 199,319 rows, validator passes.
 
