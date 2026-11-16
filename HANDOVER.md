@@ -249,3 +249,10 @@ Gate fixed beforehand on (p 0.5, sigma 1 m): delta >= +0.01 both truths, >= 4/5 
 | oracle 1.0, 0 | +0.029 | +0.024 | 5/5 |
 Oracle ceiling +0.03 (matches the earlier ball-fill bound). Any fill error >= 1 m hurts; 2 m is catastrophic. A detector from a
 wide tactical camera with z = 0 homography (aerial balls) will not reach < 0.5 m on near all gaps. Not pursued; v10 stays.
+
+### Whistle check on the tactical audio (16 Nov 2026, human run, aggregates only) -> FAIL / inconclusive, closed
+`possession/whistle_check.py` (human only, `refuse_under_claude`). Tactical mp4 has 1 audio stream. Tonal score (2-4.5 kHz peak/median)
+has median 17.8 dB, p99 29.4 dB: the background is itself tonal, so the fixed absolute threshold (15 dB) fires almost everywhere.
+Enrichment of whistle onsets near v10 D transitions vs shifted control: 1.13 (TH 15, decision), 0.97 (TH 18): FAIL. The test is
+miscalibrated rather than a clean negative, but the upside is small (D boundaries already ~0.9 within 1 s on IDSSE, no audio to
+validate on IDSSE). Not retried. v10 stays.
