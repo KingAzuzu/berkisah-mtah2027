@@ -1,7 +1,7 @@
 # Technical document: frame-level ball possession, BAR-ATH tactical video
 
 Team: **Berkisah** (submission `Berkisah.csv`, document `Berkisah.md`)
-Repository: **TODO public repo URL**
+Repository: https://github.com/KingAzuzu/berkisah-mtah2027 (branch `possession-dev`)
 Method version: **v10** (frozen; v6 is the fallback), commit **TODO final commit hash**
 
 ## 1. Summary
@@ -121,7 +121,7 @@ The rules are inputs to v10 through the v2.1 evidence (50% of the fusion); the T
 
 Python 3.12, CPU only. The match data is not in the repository; weights and parameters (`possession/params_v10.json`, `possession/params_v2_1.json`) are committed. `requirements-submission.txt` pins every dependency; torch is `torch==2.11.0` from the PyTorch CPU index.
 
-    git clone --branch possession-dev TODO-repo-URL
+    git clone --branch possession-dev https://github.com/KingAzuzu/berkisah-mtah2027.git
     cd <clone>
     py -3.12 -m venv venv
     venv\Scripts\python -m pip install -r requirements-submission.txt
