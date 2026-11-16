@@ -261,3 +261,11 @@ validate on IDSSE). Not retried. v10 stays.
 `possession/v18_selftrain.py`, `logs/v18/eval.json`. v8 recipe, seeds 20-24, + held-out match with v8 LOMO pseudo-labels (canonical
 features only; RULES.md allows algorithmic pseudo-labels). Gate fixed beforehand: merged mean >= 0.7663 and >= 4/5 wins vs v8.
 v18 merged 0.7554 vs v8 0.7563 (1/5), DFL 0.6508 vs 0.6517. Pseudo-labels reproduce what the model already predicts: no gain.
+
+### Team-label swaps in the competition tracking (16 Nov 2026) -> open lead
+- `team_label_check` (human, aggregates): one team > 11 players in 18.2% of frames (>= 18 players on); of those 82.8% have the swap
+  signature (other team < 11), 4.9% a duplicate within 0.5 m; median 22 players; 24 home / 22 away slots. matched2 never swaps teams.
+- `v19_team_noise_sim` (IDSSE, frozen v10, in-sample deltas, 10 s blocks): q 0.13 random player -0.006 DFL / -0.010 merged (q 0.05
+  -0.002/-0.002); q 0.13 player nearest the ball -0.031 / -0.047 (q 0.05 -0.013 / -0.017). Cost depends on where swaps happen.
+- Next: `team_swap_diag` (human) measures teleports, whether episodes start at a teleport (repairable by tracklet stitching) and
+  whether over-count players are near the ball. `yolo_prep`: 19,932 sampled frames, ATD ball seen 0.569.
