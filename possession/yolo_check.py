@@ -63,7 +63,7 @@ def main(mp4, model="yolo11x.pt", imgsz=1920):
         if f in want:
             _, img = cap.retrieve()
             batch.append(img); bk.append(want[f])
-            if len(batch) == 16:
+            if len(batch) == 4:
                 flush()
         f += 1
     flush()

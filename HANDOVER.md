@@ -269,3 +269,7 @@ v18 merged 0.7554 vs v8 0.7563 (1/5), DFL 0.6508 vs 0.6517. Pseudo-labels reprod
   -0.002/-0.002); q 0.13 player nearest the ball -0.031 / -0.047 (q 0.05 -0.013 / -0.017). Cost depends on where swaps happen.
 - Next: `team_swap_diag` (human) measures teleports, whether episodes start at a teleport (repairable by tracklet stitching) and
   whether over-count players are near the ball. `yolo_prep`: 19,932 sampled frames, ATD ball seen 0.569.
+- `team_swap_diag` (human): 31 teleports (0.23/min); imbalance 12.9% of frames, 151 episodes; episode starts at a teleport 0.000
+  (swaps are not ID-switch jumps, so tracklet stitching cannot repair them); over-count team nearest to the ball 0.587 vs ~0.52
+  expected from the home/away mix (balanced frames: home nearest 0.562): mild enrichment, not the near-ball worst case.
+  Expected cost about the random case (~0.01): below the 0.02 bar. Team-label repair / jersey classifier closed for Phase 1.
