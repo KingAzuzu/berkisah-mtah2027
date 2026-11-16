@@ -47,7 +47,7 @@ def main(mp4, model="yolo11x.pt", imgsz=1920):
         nonlocal far
         if not batch:
             return
-        for k, r in zip(bk, net.predict(batch, imgsz=imgsz, conf=0.05, classes=[32], verbose=False, half=True)):
+        for k, r in zip(bk, net.predict(batch, imgsz=imgsz, conf=0.05, classes=[32], verbose=False)):
             b = r.boxes.xywh.cpu().numpy()
             ndet[k] = len(b)
             if len(b) and not np.isnan(ball[k, 0]):
