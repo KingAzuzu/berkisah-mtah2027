@@ -234,3 +234,18 @@ retrain. The per-player model adds no team information beyond the TCN + v2.1 fus
 (CHALLENGE.md: a touch without control is not a change). Gate fixed beforehand on avg(DFL, merged): >= v10 + 0.01 and >= 4/5 wins.
 v10 avg 0.7067; v10+ctrl2 0.7053 (2/5), v10+ctrl3 0.6941, v6+ctrl2 0.6927, v6+ctrl3 0.6741. v10 changes only 2-4 spells per match:
 it already predicts few short flips, and merging more costs vs both truths. Post-processing on the convention is exhausted.
+
+### v17 step 1: video ball-fill upside, simulated on IDSSE (16 Nov 2026) -> gate FAIL, path closed
+`possession/v17_fill_sim.py`, `logs/v17/fill_sim.json`. Frozen v10 final nets on matched2 TUNE (in-sample; read deltas only;
+locked untouched). Simulated detector fills missing-ball frames (alive and dead) in 1 s blocks with prob p, smooth error sigma.
+Gate fixed beforehand on (p 0.5, sigma 1 m): delta >= +0.01 both truths, >= 4/5 wins. Base DFL 0.7329, merged 0.8241 (in-sample).
+| p, sigma | d DFL | d merged | wins |
+|---|---|---|---|
+| 0.5, 0.5 | +0.010 | +0.005 | 3/5 |
+| 0.5, 1 (gate) | -0.022 | -0.036 | 0/5 |
+| 0.5, 2 | -0.143 | -0.187 | 0/5 |
+| 1.0, 0.5 | +0.020 | +0.012 | 4/5 |
+| 1.0, 1 | -0.012 | -0.027 | 0/5 |
+| oracle 1.0, 0 | +0.029 | +0.024 | 5/5 |
+Oracle ceiling +0.03 (matches the earlier ball-fill bound). Any fill error >= 1 m hurts; 2 m is catastrophic. A detector from a
+wide tactical camera with z = 0 homography (aerial balls) will not reach < 0.5 m on near all gaps. Not pursued; v10 stays.
