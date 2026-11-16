@@ -38,6 +38,8 @@ def main(mp4, model="yolo11x.pt", imgsz=1920):
     want = dict(zip(idx.tolist(), range(len(idx))))
     net = YOLO(model)
     cap = cv2.VideoCapture(mp4)
+    import time
+    total, t0 = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) or 1, time.time()
     near = np.full(len(idx), np.inf)
     ndet = np.zeros(len(idx), int)
     far = 0
@@ -66,7 +68,12 @@ def main(mp4, model="yolo11x.pt", imgsz=1920):
             if len(batch) == 4:
                 flush()
         f += 1
+        if f % 5000 == 0:
+            el = time.time() - t0
+            print(f"{f}/{total} frames {100 * f / total:5.1f}%  elapsed {el / 60:5.1f} min  ETA {el / f * (total - f) / 60:5.1f} min",
+                  end="", flush=True)
     flush()
+    print()
     seen = ~np.isnan(ball[:, 0])
     e = near[seen]
     print(f"video frames read {f}; sampled {len(idx)}; ATD-seen {int(seen.sum())}; model {model} imgsz {imgsz}")
