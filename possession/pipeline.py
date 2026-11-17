@@ -126,6 +126,12 @@ def v10c1_predictor():
     return p, lambda half: tcn_v10c1.predict(half, p, models, nets)
 
 
+def v21_predictor():
+    """-> (params, predict(half)) for v21 (matched3 nets + matched3 dead model, v10 fusion and decoder). torch imported only here."""
+    from . import tcn_v21
+    return tcn_v21.predictor()
+
+
 def v8_predictor():
     """-> (params, predict(half)) for v8 (v6 recipe, nets trained on touch-merged labels). torch imported only here."""
     from . import tcn_v8

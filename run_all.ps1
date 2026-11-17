@@ -104,6 +104,30 @@ if ($args[0] -eq "v10") {
     Write-Host "== done: paste everything above =="
     exit 0
 }
+if ($args[0] -eq "v21") {
+    Write-Host "== v21: matched3 (moving dead ball) nets + dead model, submission, validator, rerun =="
+    & $py -m possession.bar_ath --method v21 --out "$r\v21.csv"
+    & $py evaluation\validate_submission.py "$r\v21.csv" 2>&1 | Select-Object -Last 3
+    & $py -m possession.bar_ath --method v21 --out "$r\v21_run2.csv" | Out-Null
+    Write-Host ((Get-FileHash "$r\v21.csv").Hash -eq (Get-FileHash "$r\v21_run2.csv").Hash)
+    Remove-Item "$r\v21_run2.csv" -ErrorAction SilentlyContinue
+    if (Test-Path "$r\v10.csv") {
+        Write-Host "== v10 vs v21 agreement (aggregates) =="
+        & $py -m possession.compare_csv "$r\v10.csv" "$r\v21.csv"
+    }
+    Write-Host "== real-tracking ball statistics for the matched3 simulator (aggregates) =="
+    & $py -m possession.atd_stats3
+    Write-Host "== public 5-minute window, correctness only (never used to choose) =="
+    & $py evaluation\run_evaluation.py --no-detail 2>&1 | Select-Object -Last 25
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
+if ($args[0] -eq "stats3") {
+    Write-Host "== real-tracking ball statistics for the matched3 simulator (aggregates) =="
+    & $py -m possession.atd_stats3
+    Write-Host "== done: paste everything above =="
+    exit 0
+}
 
 if ($args[0] -eq "tags") {
     Write-Host "== Smart Tagging team tag vs v4 labels (aggregates) =="

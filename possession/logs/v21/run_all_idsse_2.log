@@ -1,0 +1,89 @@
+torch 2.11.0+cu128 cuda True
+17:44:59 nets r3x s20 J03WOY 36s
+17:46:46 nets r3x s20 J03WPY 106s
+17:47:25 nets r3xl s20 J03WMX 36s
+17:47:55 nets r3xl s20 J03WN1 31s
+17:48:27 nets r3xl s20 J03WOH 32s
+17:48:59 nets r3xl s20 J03WOY 33s
+17:49:38 nets r3xl s20 J03WPY 39s
+17:50:15 nets r2 s21 J03WMX 33s
+17:50:50 nets r2 s21 J03WN1 36s
+17:51:22 nets r2 s21 J03WOH 31s
+17:51:57 nets r2 s21 J03WOY 35s
+17:52:30 nets r2 s21 J03WPY 33s
+17:53:33 nets r3 s21 J03WMX 34s
+17:54:03 nets r3 s21 J03WN1 30s
+17:54:35 nets r3 s21 J03WOH 33s
+17:55:09 nets r3 s21 J03WOY 34s
+17:55:42 nets r3 s21 J03WPY 33s
+17:56:28 nets r3x s21 J03WMX 42s
+17:57:08 nets r3x s21 J03WN1 40s
+17:57:49 nets r3x s21 J03WOH 41s
+17:58:30 nets r3x s21 J03WOY 41s
+17:59:06 nets r3x s21 J03WPY 37s
+18:00:12 nets r3xl s21 J03WMX 37s
+18:00:48 nets r3xl s21 J03WN1 36s
+18:01:25 nets r3xl s21 J03WOH 37s
+18:01:58 nets r3xl s21 J03WOY 33s
+18:02:35 nets r3xl s21 J03WPY 37s
+18:03:10 nets r2 s22 J03WMX 31s
+18:03:40 nets r2 s22 J03WN1 29s
+18:04:07 nets r2 s22 J03WOH 27s
+18:04:35 nets r2 s22 J03WOY 28s
+18:05:03 nets r2 s22 J03WPY 28s
+18:05:38 nets r3 s22 J03WMX 31s
+18:06:07 nets r3 s22 J03WN1 29s
+18:06:42 nets r3 s22 J03WOH 35s
+18:07:14 nets r3 s22 J03WOY 31s
+18:07:45 nets r3 s22 J03WPY 31s
+18:08:28 nets r3x s22 J03WMX 39s
+18:09:05 nets r3x s22 J03WN1 37s
+18:09:45 nets r3x s22 J03WOH 40s
+18:10:16 nets r3x s22 J03WOY 31s
+18:10:52 nets r3x s22 J03WPY 35s
+18:11:32 nets r3xl s22 J03WMX 37s
+18:12:05 nets r3xl s22 J03WN1 33s
+18:12:41 nets r3xl s22 J03WOH 36s
+18:13:14 nets r3xl s22 J03WOY 33s
+18:13:46 nets r3xl s22 J03WPY 32s
+18:14:41 dead m2 ball done
+18:15:05 dead m2 players done
+18:15:41 dead m3 ball done
+18:16:03 dead m3 players done
+18:16:32 decoder grid J03WMX done (best in-sample 0.6213)
+18:16:40 decoder grid J03WN1 done (best in-sample 0.6005)
+18:16:47 decoder grid J03WOH done (best in-sample 0.6582)
+18:16:54 decoder grid J03WOY done (best in-sample 0.6662)
+18:17:01 decoder grid J03WPY done (best in-sample 0.6536)
+18:17:01 # v21 LOMO result (IDSSE TUNE, matched3 evaluation; gates from v21_plan.md)
+
+Seeds [20, 21, 22]. spellF1 vs DFL truth, mean over the 5 held-out matches [min, max]; matched2 column reported, not gated.
+
+| step | nets | dead model | matched3 spellF1 | macroF1 | D recall (ball seen / missing) | matched2 spellF1 | gate |
+|---|---|---|---|---|---|---|---|
+| REF | r2 | m2/ball | 0.4956 [0.462, 0.518] | 0.8355 | 0.544 / 0.957 | 0.6829 | reference |
+| A | r2 | m3/ball | 0.5276 [0.503, 0.552] | 0.8633 | 0.734 / 0.969 | 0.6780 | vs REF: +0.0319, 5/5 -> PASS |
+| A' | r2 | m3/players | 0.5251 [0.496, 0.547] | 0.8586 | 0.724 / 0.959 | 0.6750 | vs A: -0.0025, 1/5 -> FAIL |
+| B | r3 | m3/ball | 0.6255 [0.585, 0.659] | 0.9108 | 0.967 / 0.989 | 0.6554 | vs A: +0.0979, 5/5 -> PASS |
+| C | r3x | m3/ball | 0.6232 [0.591, 0.657] | 0.9114 | 0.975 / 0.990 | 0.6455 | vs B: -0.0022, 2/5 -> FAIL |
+| D | r3xl | m3/ball | 0.6220 [0.595, 0.649] | 0.9130 | 0.973 / 0.988 | 0.6320 | vs B: -0.0035, 3/5 -> FAIL |
+
+Decoder (nested LOMO on B): v10 costs 0.6255, nested 0.6275 (+0.0021, 3/5) -> FAIL; picks per fold [[15.0, 2.0, 20.0, 2.0], [15.0, 2.0, 10.0, 5.0], [10.0, 5.0, 20.0, 0.0], [10.0, 2.0, 20.0, 2.0], [15.0, 10.0, 10.0, 5.0]].
+Winner: B = nets r3, dead m3/ball, costs st/sd_in/sd_out/same [20.0, 5.0, 5.0, 0.0].
+saved dead_v21 ball
+saved seed 20
+saved seed 21
+saved seed 22
+saved seed 23
+saved seed 24
+J03WQQ {'spell': 0.6672, 'macro': 0.9146876355322048, 'n_pred': 349}
+J03WR9 {'spell': 0.623583460949464, 'macro': 0.9242520836888682, 'n_pred': 283}
+python 3.12.10 numpy 2.5.4 sklearn 1.9.1 threads 1
+match J03WMX half 0 frames 70708  counts H 18444 A 27630 D 24634
+sha256 codes    f97e2747d6884d0a052568210ddd907fe0e23396da17409df167751bfee34434
+sha256 letters  0e6c3d5de1e90dca6d8c6df3adf2567555de10031265f08daf91844b9407a97f
+python 3.12.10 numpy 2.5.4 sklearn 1.9.1 threads 4
+match J03WMX half 0 frames 70708  counts H 18444 A 27630 D 24634
+sha256 codes    f97e2747d6884d0a052568210ddd907fe0e23396da17409df167751bfee34434
+sha256 letters  0e6c3d5de1e90dca6d8c6df3adf2567555de10031265f08daf91844b9407a97f
+== done: paste results/v21.md, the locked line and the two sha256 lines ==
