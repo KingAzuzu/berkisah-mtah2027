@@ -2,7 +2,7 @@
 
 Team: **Berkisah** (submission `Berkisah.csv`, document `Berkisah.md`)
 Repository: https://github.com/KingAzuzu/berkisah-mtah2027 (branch `possession-dev`)
-Method version: **v10** (frozen; v6 is the fallback), commit **TODO final commit hash**
+Method version: **v10** (frozen; v6 is the fallback), code, weights and parameters at commit `789d26b` (this document is committed after it)
 
 ## 1. Summary
 
