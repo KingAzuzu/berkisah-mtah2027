@@ -293,3 +293,32 @@ detector fine-tuned on public football video (e.g. SoccerNet) and the same gate.
   cannot be validated, and it costs 0.006-0.009 where it can be measured.
 - Label-free whole-match check: v10 D share of graded frames 68,332 / 158,857 = 0.43, in line with typical effective playing time
   (~55% ball in play), so the window's D recall is not evidence of a match-wide D deficit. Not changed from 5 minutes of truth.
+
+
+## v21 (17 Nov 2026, branch `v21-dead-ball`): fix the frozen dead ball in the simulator, then rebuild on it
+
+Cause of the public-window D recall 0.33 (found independently by five public competitor repos, verified here): DFL freezes the
+ball at exactly zero speed while play is dead (IDSSE J03WMX: 100% of dead frames, 0.4% of alive frames). matched2 left 37% of
+stoppages as a frozen visible ball, so the dead model and the TCN learned "visible still ball = dead"; in the provided tracking the
+visible dead ball is being carried. Every IDSSE gate since v2.1 measured D in that frozen world (v20 was judged by a biased test).
+
+- `degrade_m3.py` (profile matched3): stoppage ball = roll, carry by nearby players with hand-offs, pass to the restart spot, rest;
+  visibility split by state with jittered edges; ball smoothing. `v21_simstats` on TUNE: seen 0.613, P(miss|D) 0.700,
+  P(miss|alive) 0.118, visible dead ball 2.3 m/s (matched2 0.11), visible-still 7.5% (matched2 23%), live accel p50/p90/p99
+  5.5/18.7/36.4 m/s^2 (matched2 26/64/458; competitor measurement of the real ATD 6.6/18.7/33.8). Run lengths still shorter
+  than real (seen median 7.8 vs 13.8 s): to be recalibrated from `atd_stats3` (human).
+- Plan and gates fixed before running: `possession/results/v21_plan.md`.
+- Step 1 symptom check PASS: the matched2-trained dead model evaluated on matched3 gives D recall 0.341 where the ball is seen and
+  macroF1 0.746 (real public window: 0.33 and 0.732); trained on matched3: D recall 0.937, spellF1 (rules + dead only) 0.400 vs
+  0.326, 5/5. Harness sanity: matched2-trained on matched2 reproduces the old R reference 0.5562 exactly.
+- Code: `tcn21_lib` (CPU/GPU TCN, f32 features, long context), `v21_lomo` (LOMO), `v21_decoder` (4-state Viterbi: D after H / A,
+  asymmetric stop/restart costs, same-team restart penalty; 72% of IDSSE restarts go to the other team; v10 decoder is the special
+  case 20/5/5/0, verified identical), `v21_select` (applies the gates in order, writes results/v21.md), `tcn_v21` (freeze, locked,
+  inference), wired into bar_ath / repro_check / run_all.ps1 (`v21`, `stats3`).
+
+### For Zuzu
+1. IDSSE side (public data; GPU makes it fast): `.\run_v21_idsse.ps1` -> results/v21.md, frozen weights, locked check, hashes.
+   Commit and push what it writes (models/tcn_v21_s*.pt, models/dead_v21.joblib, params_v21.json, logs/v21, results/v21.md).
+2. Competition side, own terminal: `.\run_all.ps1 v21` (submission CSV, validator, rerun hash, v10 vs v21 agreement,
+   `atd_stats3` real-tracking ball statistics, public window as a correctness check). Paste back the printed block only.
+   `.\run_all.ps1 stats3` runs only the ball statistics.

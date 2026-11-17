@@ -3,7 +3,7 @@ as v10 (0.5 * mean log-prob + 0.5 * rules/dead evidence), boundary-hook Viterbi.
 from params_v21.json, written by `freeze` from the LOMO result (possession/results/v21.md).
 
 Inference (CPU, float32, 1 thread, deterministic): python -m possession.bar_ath --method v21
-Freeze (IDSSE TUNE only, CPU or GPU):           python -m possession.tcn_v21 freeze RECIPE DEAD_VARIANT [ST SD]
+Freeze the v21_select winner (IDSSE TUNE only, CPU or GPU): python -m possession.tcn_v21 freeze
 Locked check, once, after freezing:             python -m possession.tcn_v21 locked"""
 import json
 import sys
@@ -42,7 +42,9 @@ def predict(half, params, models, nets):
     lp = V.upsample(np.mean([o[0] for o in outs], 0), n)
     b = V.upsample(np.mean([o[1] for o in outs], 0)[:, None], n)[:, 0]
     e = params["fusion"] * lp + (1 - params["fusion"]) * pl.evidence(half, params, models)
-    return V.viterbi_scaled(e, params["SWITCH_TEAM"], params["SWITCH_DEAD"], 1 - params["hook"] * b)
+    from .v21_decoder import viterbi_batch
+    cfg = np.array([[params["SWITCH_TEAM"], params["SWITCH_DEAD_IN"], params["SWITCH_DEAD_OUT"], params["SAME_RESTART"]]])
+    return viterbi_batch(e, cfg, 1 - params["hook"] * b)[0]
 
 
 def predictor():
@@ -51,17 +53,25 @@ def predictor():
     return p, lambda half: predict(half, p, models, nets)
 
 
-def freeze(recipe, variant, st=20.0, sd=5.0):
+def freeze_selected():
+    """Freeze the winner written by v21_select (logs/v21/select.json)."""
+    from . import v21_lomo as H
+    w = json.load(open(H.LOG / "select.json"))["winner"]
+    d = w["decoder"]
+    freeze(w["recipe"], w["tsim"], w["variant"], d["st"], d["sd_in"], d["sd_out"], d["same"], selected=w["name"])
+
+
+def freeze(recipe, tsim, variant, st=20.0, sd_in=5.0, sd_out=5.0, same=0.0, selected="manual"):
     from . import dead, pipeline as pl, tcn_lib as T, v21_lomo as H
     from .data import TUNE
     r = H.RECIPES[recipe]
     nin = 26 if r["fset"] == "f26" else 32
     D = {m: H.load_data(m) for m in TUNE}
-    # dead model on all 5 TUNE matches, matched3 canonical
-    names = D[TUNE[0]]["evals"]["m3"][0]["names"]
+    # dead model on all 5 TUNE matches, canonical degrade of profile tsim
+    names = D[TUNE[0]]["evals"][tsim][0]["names"]
     keep = pl.keep_columns(names, variant)
-    X = np.concatenate([h["X"][::5][:, keep] for m in TUNE for h in D[m]["evals"]["m3"]])
-    y = np.concatenate([h["y"][::5] for m in TUNE for h in D[m]["evals"]["m3"]])
+    X = np.concatenate([h["X"][::5][:, keep] for m in TUNE for h in D[m]["evals"][tsim]])
+    y = np.concatenate([h["y"][::5] for m in TUNE for h in D[m]["evals"][tsim]])
     joblib.dump({"model": dead.make_model().fit(X, y), "keep": keep, "features": names}, HERE / "models" / "dead_v21.joblib")
     print("saved dead_v21", variant, flush=True)
     items = []
@@ -74,10 +84,11 @@ def freeze(recipe, variant, st=20.0, sd=5.0):
         L.save(mod, HERE / "models" / f"tcn_v21_s{s}.pt", {"recipe": recipe, "trained_on": list(TUNE), "profile": "matched3+DR"})
         print("saved seed", s, flush=True)
     base = {k: v for k, v in pl.base_params().items() if isinstance(v, (int, float, str))}
-    p = {**base, "ALPHA": 0.5, "SWITCH_TEAM": st, "SWITCH_DEAD": sd, "DECODER": "viterbi", "variant": variant, "seeds": list(SEEDS),
-         "fusion": 0.5, "hook": V.HOOK, "fset": r["fset"], "recipe": recipe, "dil": list(r["dil"]), "steps": 1500,
-         "sources": "IDSSE TUNE (matched3 canonical + 6 DR variants), DFL labels, mirror aug + TTA",
-         "selection": "v21_plan gates on matched3 LOMO; see results/v21.md"}
+    p = {**base, "ALPHA": 0.5, "SWITCH_TEAM": st, "SWITCH_DEAD_IN": sd_in, "SWITCH_DEAD_OUT": sd_out, "SAME_RESTART": same,
+         "DECODER": "viterbi4", "variant": variant, "dead_profile": tsim, "seeds": list(SEEDS), "fusion": 0.5, "hook": V.HOOK,
+         "fset": r["fset"], "recipe": recipe, "dil": list(r["dil"]), "steps": 1500,
+         "sources": f"IDSSE TUNE ({r['sim']} canonical + 6 DR variants), DFL labels, mirror aug + TTA",
+         "selection": f"v21_plan gates on matched3 LOMO, winner {selected}; see results/v21.md"}
     (HERE / "params_v21.json").write_text(json.dumps(p, indent=1))
 
 
@@ -103,7 +114,6 @@ def locked():
 
 if __name__ == "__main__":
     if sys.argv[1] == "freeze":
-        a = sys.argv[2:]
-        freeze(a[0], a[1], *(float(x) for x in a[2:4]))
+        freeze_selected()
     elif sys.argv[1] == "locked":
         locked()

@@ -1,0 +1,15 @@
+D:\nahdi\personal\azuzu\berkisah-mtah2027\possession\tcn21_lib.py:43: RuntimeWarning: Mean of empty slice
+  return np.nanmean(X[:n].reshape(-1, SUB, X.shape[1]), axis=1)
+D:\nahdi\personal\azuzu\berkisah-mtah2027\possession\tcn21_lib.py:43: RuntimeWarning: Mean of empty slice
+  return np.nanmean(X[:n].reshape(-1, SUB, X.shape[1]), axis=1)
+D:\nahdi\personal\azuzu\berkisah-mtah2027\possession\tcn21_lib.py:43: RuntimeWarning: Mean of empty slice
+  return np.nanmean(X[:n].reshape(-1, SUB, X.shape[1]), axis=1)
+D:\nahdi\personal\azuzu\berkisah-mtah2027\possession\tcn21_lib.py:43: RuntimeWarning: Mean of empty slice
+  return np.nanmean(X[:n].reshape(-1, SUB, X.shape[1]), axis=1)
+D:\nahdi\personal\azuzu\berkisah-mtah2027\possession\tcn21_lib.py:43: RuntimeWarning: Mean of empty slice
+  return np.nanmean(X[:n].reshape(-1, SUB, X.shape[1]), axis=1)
+13:19:33 data J03WMX done
+13:19:34 data J03WN1 done
+13:19:34 data J03WOH done
+13:19:34 data J03WOY done
+13:19:34 data J03WPY done
