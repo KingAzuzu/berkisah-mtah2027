@@ -316,8 +316,12 @@ visible dead ball is being carried. Every IDSSE gate since v2.1 measured D in th
   case 20/5/5/0, verified identical), `v21_select` (applies the gates in order, writes results/v21.md), `tcn_v21` (freeze, locked,
   inference), wired into bar_ath / repro_check / run_all.ps1 (`v21`, `stats3`).
 
-### For Zuzu
+### For Zuzu (nothing was trained on Dihan's machine: CPU took ~20 min per net, so the whole IDSSE side is yours)
+0. `git fetch; git checkout v21-dead-ball`. The IDSSE xml files must be in `idsse-tests\data` (all 7 matches). If your CUDA
+   torch lives in another venv, set `$env:V21_PY` to its python first (the script prints `cuda True/False` as its first line).
+   `$env:V21_JOBS` = matches built in parallel in the data step (default 2, ~2-3 GB RAM each).
 1. IDSSE side (public data; GPU makes it fast): `.\run_v21_idsse.ps1` -> results/v21.md, frozen weights, locked check, hashes.
+   It is resumable: rerun after a crash and finished folds / cached data are skipped.
    Commit and push what it writes (models/tcn_v21_s*.pt, models/dead_v21.joblib, params_v21.json, logs/v21, results/v21.md).
 2. Competition side, own terminal: `.\run_all.ps1 v21` (submission CSV, validator, rerun hash, v10 vs v21 agreement,
    `atd_stats3` real-tracking ball statistics, public window as a correctness check). Paste back the printed block only.

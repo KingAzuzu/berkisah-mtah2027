@@ -1,6 +1,7 @@
 """v21 LOMO harness on IDSSE TUNE (CPU; GPU used for training when present). Caches under idsse-tests/data/cache/v21 (public data).
 
-  python -m possession.v21_lomo data                       # degrade + features + prep (matched2 / matched3, canonical + 6 DR each)
+  python -m possession.v21_lomo data                       # degrade + features + prep (matched2 / matched3, canonical + 6 DR each);
+                                                           # V21_JOBS parallel matches (default 2, ~2-3 GB RAM each)
   python -m possession.v21_lomo nets RECIPE SEED [THREADS] # LOMO nets for one recipe and seed -> logs/v21/nets/*.npz
   python -m possession.v21_lomo dead                       # LOMO dead models (ball / players) trained on m2 or m3 canonical
   python -m possession.v21_lomo eval [CAND ...]            # decode, score, gate -> logs/v21/eval.json
@@ -13,7 +14,9 @@ Recipes (labels = DFL truth; v6 recipe otherwise: TCN + boundary head, EMA, mirr
 Evaluation set: the held-out match's matched3 canonical degrade (primary) and matched2 canonical (reported).
 Decoder = v10's: e = 0.5 * mean log-prob + 0.5 * pipeline.combine(rules team evidence, p_dead, 0.5); Viterbi 20 / 5 with the
 switch cost scaled by (1 - 0.6 * boundary prob)."""
+import functools
 import json
+import os
 import sys
 import time
 
@@ -70,11 +73,13 @@ def _build(m):
 def build_data():
     CACHE.mkdir(parents=True, exist_ok=True)
     todo = [m for m in TUNE if not (CACHE / f"{m}.pkl").exists()]
-    for m, feats, evals in Parallel(n_jobs=min(5, len(todo) or 1))(delayed(_build)(m) for m in todo):
+    jobs = int(os.environ.get("V21_JOBS", "2"))   # ~2-3 GB RAM per job
+    for m, feats, evals in Parallel(n_jobs=min(jobs, len(todo) or 1))(delayed(_build)(m) for m in todo):
         joblib.dump({"feats": feats, "evals": evals}, CACHE / f"{m}.pkl")
         prog(f"data {m} done")
 
 
+@functools.lru_cache(maxsize=None)
 def load_data(m):
     return joblib.load(CACHE / f"{m}.pkl")
 
