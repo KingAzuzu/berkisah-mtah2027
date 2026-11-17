@@ -2,13 +2,28 @@
 
 Team: **Berkisah** (submission `Berkisah.csv`, document `Berkisah.md`)
 Repository: https://github.com/KingAzuzu/berkisah-mtah2027 (branch `possession-dev`)
-Method version: **v10** (frozen; v6 is the fallback), code, weights and parameters at commit `789d26b` (this document is committed after it)
+Method version: **v21** (frozen; v10 is the fallback), code, weights and parameters at commit `40db44d` (this document is committed after it)
 
 ## 1. Summary
 
-The file is produced by a fully algorithmic pipeline with three parts: hand-designed possession rules plus a dead-ball classifier on the provided tracking, an ensemble of ten small temporal convolutional networks (TCN) that read the tracking, and a Viterbi decoder. All learned parts were trained **only on five public IDSSE matches**, degraded with our own simulator so that they look like the provided tracking. **No competition data (video, tracking, tags, ground truth) was used for training, tuning or parameter choice.** Nothing was labelled by hand on BAR-ATH. The public 5-minute ground-truth window was used only to check alignment, file format and label meaning, and once to diagnose a failure case (section 6); it never set a parameter or chose a method.
+The file is produced by a fully algorithmic pipeline with three parts: hand-designed possession rules plus a dead-ball classifier on the provided tracking, an ensemble of five small temporal convolutional networks (TCN) that read the tracking, and a Viterbi decoder. All learned parts were trained **only on five public IDSSE matches**, degraded with our own simulator so that they look like the provided tracking. **No competition data (video, tracking, tags, ground truth) was used for training, tuning or parameter choice.** Nothing was labelled by hand on BAR-ATH. The public 5-minute ground-truth window was used only to check alignment, file format and label meaning, and once to diagnose a failure case (section 6); it never set a parameter or chose a method.
 
-**v10 is a hedge between two readings of "controlled possession".** The DFL labels we train on flip the owner on very short touches (19% of IDSSE spells are X-Y-X runs shorter than 2 s), while CHALLENGE.md says that a touch without control is not a change. We therefore trained the same recipe twice: v6 on the DFL labels and v8 on touch-merged labels (an opponent spell shorter than 2 s between two spells of the same team is merged into them). v10 averages the log-probabilities of all ten nets (5 v6 + 5 v8). It is the minimax-regret choice over the two truths, chosen by a rule fixed before looking at the public window.
+**v21 fixes the dead ball in our simulator.** In the IDSSE data we train on, DFL freezes the ball at zero speed while play is dead; our first simulators (matched, matched2) kept that frozen ball whenever they did not hide it, so every model learned "a visible still ball is dead, a moving ball is alive". In the provided tracking a dead ball, when seen, is usually being carried or rolled to the restart spot (label-free aggregate on the real tracking: mean speed of the seen dead ball 4.7 m/s, only 16% of it still). The new simulator matched3 (`possession/degrade_m3.py`) replaces the frozen stoppage ball by a roll, carry and pass to the restart spot, smooths the ball like the ATD tracker, and splits ball visibility by state to the real aggregates (P(missing | dead) 0.70, P(missing | alive) 0.10-0.12). v21 retrains the dead-ball model and the five TCNs (v6 recipe, DFL labels) on matched3. The plan, candidates and gates were written before any v21 run (`possession/results/v21_plan.md`) and the winner was picked automatically by them (`possession/v21_select.py`):
+
+| step (IDSSE LOMO, 3 seeds, evaluated on matched3, vs DFL) | spellF1 [min, max] | D recall, ball seen | gate |
+|---|---|---|---|
+| REF: v10-style nets and dead model (trained on matched2) | 0.4956 [0.462, 0.518] | 0.544 | reference |
+| A: dead model retrained on matched3 | 0.5276 | 0.734 | +0.032, 5/5: pass |
+| A': players-only dead model | 0.5251 | 0.724 | fail |
+| **B: TCNs and dead model on matched3 = v21** | **0.6255** [0.585, 0.659] | **0.967** | **+0.098, 5/5: pass** |
+| C / D: 32 features / long dilations | 0.6232 / 0.6220 | 0.975 / 0.973 | fail |
+| nested decoder retune on B | 0.6275 | | +0.002: fail |
+
+Against the touch-merged truth, B scores 0.690 vs REF 0.541 on matched3. On the old matched2 profile (which contains the frozen-ball artefact) B scores 0.655 vs 0.683 against DFL and the same against merged (0.708 vs 0.708). Locked check of the frozen v21 (once, matched3, vs DFL): `J03WQQ` 0.667, `J03WR9` 0.624, mean 0.645, macroF1 0.915 / 0.924 (`possession/logs/locked_v21.json`); not comparable with v10's locked 0.696, which was measured on matched2.
+
+**Choice between v21 and v10.** A rule fixed before v21 was run on the competition match (`HANDOVER.md`, 17 Nov): submit v21 if the validator passes, the rerun is byte-identical, the D share of graded frames is in 0.38-0.50 with 250-500 possessions, and the public-window D recall rises above v10's 0.33 (correctness of the fix on real data; the public spellF1 is not part of the rule). Results: valid, byte-identical, D share 0.475, 321 possessions, public D recall 0.85 (precision 0.89). All four hold, so v21 is submitted.
+
+**The earlier v10 is a hedge between two readings of "controlled possession".** The DFL labels we train on flip the owner on very short touches (19% of IDSSE spells are X-Y-X runs shorter than 2 s), while CHALLENGE.md says that a touch without control is not a change. We therefore trained the same recipe twice: v6 on the DFL labels and v8 on touch-merged labels (an opponent spell shorter than 2 s between two spells of the same team is merged into them). v10 averages the log-probabilities of all ten nets (5 v6 + 5 v8). It is the minimax-regret choice over the two truths, chosen by a rule fixed before looking at the public window.
 
 Results (leave-one-match-out, LOMO, on the 5 IDSSE tuning matches degraded to look like the ATD input, organiser's `possession_metrics.py`; "merged" = DFL truth with the 2 s touch merge):
 
@@ -33,13 +48,15 @@ v10 per match vs DFL 0.655, 0.615, 0.718, 0.653, 0.702; vs merged 0.752, 0.716, 
 
 Same ordering as on the tuning matches; v10's worst-case regret 0.019 (tuning 0.017). No sign of overfitting to the tuning matches.
 
-**BAR-ATH aggregates** (human run in their own terminal, aggregates only): 199,319 rows, validator passed, rerun byte-identical; graded H 53,223, A 37,302, D 68,332; 347 possessions, mean 10.4 s (v6 402 / 9.0 s, v8 326 / 11.1 s); D share of graded frames 0.43, in line with typical effective playing time. Public 5-minute window (correctness only, 17 possessions, about +-0.06 per possession): spellF1 0.570, macroF1 0.732, team accuracy while both alive 0.92.
+**BAR-ATH aggregates** (human run in their own terminal, aggregates only). v21: 199,319 rows, validator passed, rerun byte-identical; graded H 50,986, A 32,398, D 75,473 (D share 0.475); 321 possessions, mean 10.4 s; frame agreement with v10 0.931. v10: graded H 53,223, A 37,302, D 68,332 (D share 0.43); 347 possessions. Public 5-minute window (correctness only, 17 possessions, about +-0.06 per possession): v21 spellF1 0.700, macroF1 0.906, D recall 0.85, team accuracy while both alive 0.958; v10 0.570, 0.732, 0.33, 0.92.
 
 ## 2. Approach and why
 
 The task ranks whole possessions (spellF1), so the output must be a clean sequence of spells, not frame-wise guesses.
 
-**v10 pipeline** (`possession/pipeline.py` `v10_predictor()`, `possession/tcn_v10.py`, `possession/v4_lib.py`, `possession/params_v10.json`):
+**v21 pipeline** (`possession/pipeline.py` `v21_predictor()`, `possession/tcn_v21.py`, `possession/tcn21_lib.py`, `possession/params_v21.json`) is the v10 pipeline below with three changes: (a) the dead-ball classifier is trained on matched3 (`models/dead_v21.joblib`, same features and settings); (b) one set of five TCNs (seeds 20-24, v6 recipe, DFL labels, 26 features, standard dilations) trained on matched3 canonical plus 6 domain-randomised matched3 variants per half (`models/tcn_v21_s{20..24}.pt`), instead of the ten v6 + v8 nets; (c) a 4-state Viterbi (H, A, D-after-H, D-after-A) whose costs are set to reproduce v10's 3-state decoder exactly (H<->A 20, alive<->D 5, no restart-team term), because the nested retune did not pass its gate. Fusion 0.5, boundary scaling 0.6 and the forced-D frames are unchanged.
+
+**v10 pipeline** (fallback; `possession/pipeline.py` `v10_predictor()`, `possession/tcn_v10.py`, `possession/v4_lib.py`, `possession/params_v10.json`):
 
 1. **Rules and dead-ball evidence (v2.1)** (`possession/rules.py`, `possession/dead.py`). Team evidence from the nearest player of each team to the ball, kept only when the ball is seen, a player is within 1.0 m and it is not a duel; in other stretches the last validated team is held (strength 0.3 if unchanged, 0.6 if it changes). A HistGradientBoostingClassifier (200 iterations, learning rate 0.08, 15 leaves, `random_state=0`, `models/dead_v2_1.joblib`) gives p(dead) per frame from player and ball features; it adds `0.5 * logit(p_dead)` to the D column and damps the team columns.
 2. **TCN ensemble** (`possession/tcn_lib.py`). Dilated residual temporal convolutional network, 7 blocks, 64 channels, 175,747 parameters, receptive field about +-7.4 s at 5 Hz. Input: 26 per-frame features invariant to player permutation (pooled team and ball statistics, so slot identity changes do not matter). Output: log-probabilities for H / A / D plus a boundary probability. Recipe (v6): boundary head (BCE weight 0.5, Gaussian target sigma 0.4 s); EMA 0.995; domain randomisation (6 extra degraded variants per IDSSE half with simulator constants drawn at random: ball seen 0.48-0.70, missing-run median 2.5-6 s, tracklet median 20-60 s, jitter 0.5-4 cm, dead-ball hiding probability 0.45-0.80); team-swap and pitch-mirror augmentation with mirror test-time augmentation; class and boundary losses x3 within +-1 s of a true H<->A change next to a run shorter than 3 s; 1,500 steps; seeds 20-24. v8 nets: identical recipe and seeds, labels touch-merged (`possession/v8_convention.py`, K = 2 s). v10 averages the 10 nets' log-probabilities and boundary probabilities with equal weight.
@@ -87,7 +104,7 @@ Tried and dropped (IDSSE LOMO unless noted; every gate was fixed before the run)
 
 ## 4. Training data
 
-Learned components: `possession/models/tcn_v6_s{20..24}.pt`, `possession/models/tcn_v8_s{20..24}.pt` and the dead-ball classifier `possession/models/dead_v2_1.joblib`.
+Learned components of v21: `possession/models/tcn_v21_s{20..24}.pt` and `possession/models/dead_v21.joblib`, trained on IDSSE degraded with matched3 (`possession/degrade_m3.py`; constants matched to label-free aggregates of the provided tracking, `possession/atd_stats3.py`, `possession/logs/v21/simstats.json`). Fallback v10: `possession/models/tcn_v6_s{20..24}.pt`, `possession/models/tcn_v8_s{20..24}.pt` and `possession/models/dead_v2_1.joblib` (matched2).
 
 - Data: five matches of the IDSSE open dataset, `J03WMX`, `J03WN1`, `J03WOH`, `J03WOY`, `J03WPY`, 25 fps tracking, with DFL `BallStatus` (dead / alive) and `BallPossession` (home / away) as labels; for the v8 nets the same labels with the 2 s touch merge (an algorithm, no human decision).
 - Source and licence: Bassek, M., Rein, R., Weber, H. et al., "An integrated dataset of spatiotemporal and event data in elite soccer", Sci Data 12, 195 (2025), https://doi.org/10.1038/s41597-025-04505-y. DFL / IDSSE, **CC BY 4.0** (https://creativecommons.org/licenses/by/4.0/). The labels are the dataset's own; we added no hand labels. IDSSE use was approved by the organisers (FAQ #16).
@@ -110,7 +127,8 @@ The rules are inputs to v10 through the v2.1 evidence (50% of the fusion); the T
 
 ## 6. Limitations
 
-- **Dead ball with a visible, slow ball.** In the public window, v10's D recall is 0.33 (precision 0.98): two stoppages of 20 s and 15 s with the ATD ball seen throughout and moving slowly are labelled alive. The cause is the dead-ball model's ball features, which learned from the simulator that a dead ball is usually missing; a players-only model labels these stoppages D. On IDSSE the case barely exists (D recall with the ball seen 0.998), so the fix (v20) could not be validated and costs 0.006 where it can be measured. We did not change the method from 5 minutes of truth; over the whole match v10 labels 43% of graded frames D, a plausible amount.
+- **Dead ball with a visible, moving ball (fixed in v21).** In the public window, v10's D recall was 0.33: two stoppages with the ATD ball seen and moving slowly were labelled alive. The first attempted fix (v20, players-only dead model) was judged on matched2, which itself contained the frozen-ball artefact, and failed; the cause was then traced to the simulator and fixed in matched3 (section 1). v21 is validated on matched3, a simulator we built; its gain on the real match is supported by the public-window D recall (0.85) and by a plausible whole-match D share (0.475), not by a full-match score.
+- **No convention hedge in v21.** v21's nets are trained on DFL labels only (v10 averaged DFL and touch-merged nets). On matched3 v21 still beats the reference under the merged truth (0.690 vs 0.541), but if the organisers' truth ignores short touches, a merged-label version of v21 might score higher.
 - **Team labels in the provided tracking.** In 18% of frames one team has more than 11 labelled players and the other fewer (swap pattern). Our features pool per team, and the simulated cost is about 0.01 when swaps are random, up to 0.03-0.05 if they sit at the ball; a label-free check shows they are only mildly enriched near the ball. The simulator does not swap teams.
 - **Convention.** If the organisers' truth follows DFL on short touches, v6 would score about 0.02 more; if it ignores them, v8 would. v10 limits the loss either way to about 0.02.
 - All tuning is on IDSSE degraded by our simulator, matched only to aggregates of the provided tracking. The recipe's ceiling on clean IDSSE is 0.724 vs DFL.
@@ -119,19 +137,19 @@ The rules are inputs to v10 through the v2.1 evidence (50% of the fusion); the T
 
 ## 7. How to reproduce
 
-Python 3.12, CPU only. The match data is not in the repository; weights and parameters (`possession/params_v10.json`, `possession/params_v2_1.json`) are committed. `requirements-submission.txt` pins every dependency; torch is `torch==2.11.0` from the PyTorch CPU index.
+Python 3.12, CPU only. The match data is not in the repository; weights and parameters (`possession/params_v21.json`; fallback `possession/params_v10.json`) are committed. `requirements-submission.txt` pins every dependency; torch is `torch==2.11.0` from the PyTorch CPU index.
 
     git clone --branch possession-dev https://github.com/KingAzuzu/berkisah-mtah2027.git
     cd <clone>
     py -3.12 -m venv venv
     venv\Scripts\python -m pip install -r requirements-submission.txt
     $env:MTAH_DATA_DIR = "<folder that contains the tactical/ data folder>"
-    venv\Scripts\python -m possession.bar_ath --method v10 --out Berkisah.csv
+    venv\Scripts\python -m possession.bar_ath --method v21 --out Berkisah.csv
     venv\Scripts\python evaluation\validate_submission.py Berkisah.csv
 
-Or `.\run_all.ps1 v10`, which also reruns and compares the hash. Expected: 199,319 rows, validator passes.
+Or `.\run_all.ps1 v21`, which also reruns and compares the hash. Expected: 199,319 rows, validator passes. The whole IDSSE side of v21 (simulator, LOMO screening, gates, freeze, locked check, determinism) reruns with `.\run_v21_idsse.ps1` (GPU for training; the committed weights are the artifact).
 
-Determinism: `python -m possession.repro_check --method v10` on IDSSE `J03WMX` half 0 (CPU, 1 thread; numpy 2.5.4, scikit-learn 1.9.1) gives label SHA-256 `d93596b02321e548cf255cf9c55fd608bbd0c4fae3681984ca45e108adcacdd5` (letters `98bc42d0f5a99d865ab791b231dfdd6389ce555984fd89917c56b8d7b0e0cc83`), identical at 1 and 4 threads. On the competition data the human ran v10 twice; the files are byte-identical and the validator passed.
+Determinism: `python -m possession.repro_check --method v21` on IDSSE `J03WMX` half 0 (CPU; numpy 2.5.4, scikit-learn 1.9.1) gives label SHA-256 `f97e2747d6884d0a052568210ddd907fe0e23396da17409df167751bfee34434` (letters `0e6c3d5de1e90dca6d8c6df3adf2567555de10031265f08daf91844b9407a97f`), identical at 1 and 4 threads. On the competition data the human ran v21 twice; the files are byte-identical and the validator passed. (v10: `d93596b02321e548cf255cf9c55fd608bbd0c4fae3681984ca45e108adcacdd5`.)
 
 ## 8. Sources of numbers
 
