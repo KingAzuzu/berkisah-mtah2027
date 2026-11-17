@@ -326,3 +326,11 @@ visible dead ball is being carried. Every IDSSE gate since v2.1 measured D in th
 2. Competition side, own terminal: `.\run_all.ps1 v21` (submission CSV, validator, rerun hash, v10 vs v21 agreement,
    `atd_stats3` real-tracking ball statistics, public window as a correctness check). Paste back the printed block only.
    `.\run_all.ps1 stats3` runs only the ball statistics.
+
+### v21 frozen (17 Nov 2026) and the submit rule (fixed before the competition-match run)
+v21 = r3 nets (v6 recipe on matched3, moving visible dead ball) + dead model trained on matched3 (ball features). IDSSE LOMO on
+matched3 vs DFL 0.6255 vs REF (v10-style) 0.4956, 5/5; vs merged 0.690 vs 0.541; on matched2 vs DFL 0.655 vs 0.683 (-0.028),
+merged equal. Locked (matched3) 0.645. Deterministic. `possession/results/v21.md`.
+Submit rule, fixed now: submit v21 instead of v10 if, on the competition match, (1) the validator passes, (2) the rerun is
+byte-identical, (3) D share of graded frames is in 0.38-0.50 and possessions in 250-500, and (4) on the public window (correctness
+only) v21's D recall is above v10's 0.33, i.e. the fix works on real data. The public-window spellF1 is not part of the rule.
